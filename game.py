@@ -1,5 +1,5 @@
 import os
-import pygame , pytmx
+import pygame , pytmx, random
 from math import sin, radians, degrees, copysign
 from pygame.math import Vector2
 from tilemap import *
@@ -12,7 +12,7 @@ class Game:
     def __init__(self):
         pygame.init()
         pygame.display.set_caption("Trafic Simulator")
-        self.screen = pygame.display.set_mode((0, 0) ,pygame.FULLSCREEN) #,pygame.FULLSCREEN
+        self.screen = pygame.display.set_mode((0, 0)) #,pygame.FULLSCREEN
         self.clock = pygame.time.Clock()
         self.ticks = 60
         self.exit = False
@@ -30,6 +30,7 @@ class Game:
         self.car_image = pygame.image.load(image_path).convert_alpha()
         self.car_image = pygame.transform.scale(self.car_image, (64, 32))
         self.lista = []
+        
 
     def new(self):
         # initialize all variables and do all the setup for a new game
@@ -37,6 +38,7 @@ class Game:
         self.walls = pygame.sprite.Group()
         self.listacord = self.map.tmxdata.objectgroups
         for tile_object in self.map.tmxdata.objectgroups:
+            #if 'E' in tile_object.name:
             self.lista.append(tile_object)
         for x in self.lista:
             Car(self, x)  
@@ -79,10 +81,8 @@ class Game:
         # self.draw_grid()
         self.all_sprites.draw(self.screen)
         for sprite in self.all_sprites:
-            #per problema tra float e int
-            #pos = (sprite.pos - (sprite.rect.width / 2, sprite.rect.height / 2))
-            #self.screen.blit(sprite.image, (int(pos.x),int(pos.y)))
             sprite.draw_vectors()
+            sprite.draw_rect()
         #    if self.draw_debug:
         #        pg.draw.rect(self.screen, CYAN, self.camera.apply_rect(sprite.hit_rect), 1)
         #if self.draw_debug:
@@ -105,11 +105,9 @@ class Game:
 
       
     def update(self):
-        # update portion of the game loop
         self.all_sprites.update()
-            ## Logic
-            #self.car.update(self.dt)
-            #self.clock.tick(self.ticks)
+        a =  pygame.sprite.groupcollide(self.all_sprites,self.all_sprites, False, False)
+        print(a)
 
 
 

@@ -6,9 +6,9 @@ from tilemap import *
 from math import sin, radians, degrees, copysign
 #from tilemap import collide_hit_rect
 ################
-MAX_SPEED = 5
-MAX_FORCE = 1
-APPROACH_RADIUS = 10
+MAX_SPEED = 2
+MAX_FORCE = 0.5
+APPROACH_RADIUS = 5
 #################
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -32,12 +32,15 @@ class Car(pygame.sprite.Sprite):
         self.rect.center = self.pos
         self.rot = 0
         self.index = 0
+        
+        
 
     def initcoord(self, coordinate):
         lista = []
         for tile_object in coordinate:
-            #/2 perchè la mappa è stata generata al doppio della risoluzione schermo e poi ridotta
-            lista.append(vec(tile_object.x/2, tile_object.y/2))
+            #/2 perchè la mappa è stata generata al doppio della risoluzione
+            #schermo e poi ridotta
+            lista.append(vec(tile_object.x / 2, tile_object.y / 2))
         return lista
 
     
@@ -57,21 +60,46 @@ class Car(pygame.sprite.Sprite):
         steer = (self.desired - self.vel)
         if steer.length() > MAX_FORCE:
             steer.scale_to_length(MAX_FORCE)
-        self.rot = self.desired.angle_to(vec(1,0))
+        self.rot = round(self.desired.angle_to(vec(1,0)))
         return steer
 
     def update(self):
         
         self.acc = self.seek_with_approach(self.lista[1:])
         self.image = pygame.transform.rotate(self.game.car_image, self.rot)
+        self.image90 = pygame.transform.rotate(self.image, 90)
         self.rect = self.image.get_rect()
-        # equations of motion
         self.vel += self.acc 
         if self.vel.length() > MAX_SPEED:
             self.vel.scale_to_length(MAX_SPEED)
         self.pos += self.vel
         self.rect.center = self.pos
+        self.get_direction()
+        self.vision_rect = self.creavisione()
+        
 
+    def get_direction(self):
+        
+        if self.rot in range(-3,3):
+           self.direzione = "EST"
+        elif self.rot in range(88,92):
+           self.direzione = "NORD"
+        elif self.rot in range(-92,-88):
+           self.direzione = "SUD"
+        elif abs(self.rot) in range(178,182):
+           self.direzione = "OVEST"
+
+    def creavisione(self):
+
+        if self.direzione == 'EST':
+            return pygame.Rect((self.rect.topright[0], self.rect.topright[1] - 14), self.image90.get_size())
+        elif self.direzione == 'OVEST':
+            return pygame.Rect((self.rect.topleft[0] - (self.image.get_size())[1], self.rect.topleft[1] - 14), self.image90.get_size())
+        elif self.direzione == 'NORD': 
+            return pygame.Rect((self.rect.topleft[0] - 20, self.rect.topleft[1] - (self.image.get_size())[0]), self.image90.get_size())
+        elif self.direzione == 'SUD':
+            return pygame.Rect((self.rect.bottomleft[0] - 20, self.rect.bottomleft[1]), self.image90.get_size())
+        
     def draw_vectors(self):
         scale = 25
         # vel
@@ -80,37 +108,8 @@ class Car(pygame.sprite.Sprite):
         pygame.draw.line(self.game.screen, RED, self.pos, (self.pos + self.desired * scale), 5)
         # approach radius
         pygame.draw.circle(self.game.screen, WHITE, pygame.mouse.get_pos(), APPROACH_RADIUS, 1)
+    
+    def draw_rect(self):
 
-    #def get_keys(self):
-    #  # User input
-    #   pressed = pygame.key.get_pressed()
-    #   if self.position.x * 32 < self.obj.x:
-    #       if self.velocity.x < 0:
-    #           self.acceleration = self.brake_deceleration
-    #       else:
-    #           self.acceleration += 1 * self.game.dt
-    #   elif self.position.x * 32 > self.obj.x:
-    #       if self.velocity.x > 0:
-    #           self.acceleration = -self.brake_deceleration
-    #       else:
-    #           self.acceleration -= 1 * self.game.dt
-    #   elif pressed[pygame.K_SPACE]:
-    #       if abs(self.velocity.x) > self.game.dt * self.brake_deceleration:
-    #           self.acceleration = -copysign(self.brake_deceleration, self.velocity.x)
-    #       else:
-    #           self.acceleration = -self.velocity.x / self.game.dt
-    #   else:
-    #       if abs(self.velocity.x) > self.game.dt * self.free_deceleration:
-    #           self.acceleration = -copysign(self.free_deceleration, self.velocity.x)
-    #       else:
-    #           if self.game.dt != 0:
-    #               self.acceleration = -self.velocity.x / self.game.dt
-    #   self.acceleration = max(-self.max_acceleration, min(self.acceleration, self.max_acceleration))
-
-    #   if pressed[pygame.K_RIGHT]:
-    #       self.steering -= 30 * self.game.dt
-    #   elif pressed[pygame.K_LEFT]:
-    #       self.steering += 30 * self.game.dt
-    #   else:
-    #       self.steering = 0
-    #   self.steering = max(-self.max_steering, min(self.steering, self.max_steering))    
+        pygame.draw.rect(self.game.screen, WHITE, self.rect)
+        pygame.draw.rect(self.game.screen, RED, self.vision_rect)
