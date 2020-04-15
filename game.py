@@ -29,7 +29,6 @@ class Game:
         self.map_rect = self.map_img.get_rect()
         self.car_image = pygame.image.load(image_path).convert_alpha()
         self.car_image = pygame.transform.scale(self.car_image, (64, 32))
-        self.ppu = 32
         self.lista = []
 
     def new(self):

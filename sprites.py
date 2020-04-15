@@ -5,12 +5,11 @@ from pygame.math import Vector2 as vec
 from tilemap import *
 from math import sin, radians, degrees, copysign
 #from tilemap import collide_hit_rect
-
-MAX_SPEED = 2
-MAX_FORCE = 0.5
+################
+MAX_SPEED = 5
+MAX_FORCE = 1
 APPROACH_RADIUS = 10
-WIDTH = 1600
-HEIGHT = 1200
+#################
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
@@ -41,42 +40,15 @@ class Car(pygame.sprite.Sprite):
             lista.append(vec(tile_object.x/2, tile_object.y/2))
         return lista
 
-        #self.position = Vector2(x, y)
-        #self.velocity = Vector2(0.0, 0.0)
-        #self.angle = angle
-        #self.length = length
-        #self.max_acceleration = max_acceleration
-        #self.max_steering = max_steering
-        #self.max_velocity = 20
-        #self.brake_deceleration = 10
-        #self.free_deceleration = 2
-        #self.acceleration = 0.0
-        #self.steering = 0.0
-      
-
-    #def seek(self, target):
-    #    target1 = target[self.index]
-    #    self.desired = (target1 - self.pos).normalize() * MAX_SPEED
-    #    if self.desired.length() < 50:
-    #        self.index += 1
-    #        if self.index == len(target):
-    #            self.index = 0
-    #    #self.rot = self.desired.angle_to(vec(1,0))
-    #    steer = (self.desired - self.vel)
-    #    self.rot = self.steer.angle_to(vec(1,0))
-    #    if steer.length() > MAX_FORCE:
-    #        steer.scale_to_length(MAX_FORCE)
-    #    return steer
     
     def seek_with_approach(self, target):
         target1 = target[self.index]
         self.desired = (target1 - self.pos)
         dist = self.desired.length()
-        if dist < 10:
+        if dist < APPROACH_RADIUS:
             self.index += 1
             if self.index == len(target):
                 self.kill()
-                #self.index = 0
         self.desired.normalize_ip()
         if dist < APPROACH_RADIUS:
             self.desired *= dist / APPROACH_RADIUS * MAX_SPEED
@@ -93,20 +65,11 @@ class Car(pygame.sprite.Sprite):
         self.acc = self.seek_with_approach(self.lista[1:])
         self.image = pygame.transform.rotate(self.game.car_image, self.rot)
         self.rect = self.image.get_rect()
-        #self.rect.center = self.pos 
         # equations of motion
         self.vel += self.acc 
         if self.vel.length() > MAX_SPEED:
             self.vel.scale_to_length(MAX_SPEED)
         self.pos += self.vel
-        #if self.pos.x > WIDTH:
-        #    self.pos.x = 0
-        #if self.pos.x < 0:
-        #    self.pos.x = WIDTH
-        #if self.pos.y > HEIGHT:
-        #    self.pos.y = 0
-        #if self.pos.y < 0:
-        #    self.pos.y = HEIGHT
         self.rect.center = self.pos
 
     def draw_vectors(self):
