@@ -35,13 +35,13 @@ class Game:
     def new(self):
         # initialize all variables and do all the setup for a new game
         self.all_sprites = pygame.sprite.Group()
-        self.walls = pygame.sprite.Group()
+        self.vision = pygame.sprite.Group()
         self.listacord = self.map.tmxdata.objectgroups
         for tile_object in self.map.tmxdata.objectgroups:
             #if 'E' in tile_object.name:
             self.lista.append(tile_object)
-        for x in self.lista:
-            Car(self, x)  
+        #for x in self.lista :
+        #    Car(self, random.choice(self.lista))  
             #self.listaPath.append(tile_object)
         #filtered_numbers = [item for item in self.listaPath if 'A' in item.name ] 
         #for x in filtered_numbers:
@@ -80,9 +80,9 @@ class Game:
         self.screen.blit(a, (0,0))
         # self.draw_grid()
         self.all_sprites.draw(self.screen)
-        for sprite in self.all_sprites:
-            sprite.draw_vectors()
-            sprite.draw_rect()
+        #for sprite in self.all_sprites:
+        #    sprite.draw_vectors()
+        #    sprite.draw_rect()
         #    if self.draw_debug:
         #        pg.draw.rect(self.screen, CYAN, self.camera.apply_rect(sprite.hit_rect), 1)
         #if self.draw_debug:
@@ -96,7 +96,8 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.exit = True
-                #elif event.type == pygame.MOUSEBUTTONUP:
+                elif event.type == pygame.MOUSEBUTTONUP:
+                     Car(self, random.choice(self.lista))  
                 #    pos = pygame.mouse.get_pos()
                 #    Car(self, pos[0] , pos[1] )
                 elif  event.type == pygame.KEYDOWN:
@@ -106,8 +107,9 @@ class Game:
       
     def update(self):
         self.all_sprites.update()
-        a =  pygame.sprite.groupcollide(self.all_sprites,self.all_sprites, False, False)
-        print(a)
+        #for sprite in self.all_sprites:
+        #    pygame.sprite.groupcollide(self.all_sprites,self.all_sprites, True, False)
+
 
 
 

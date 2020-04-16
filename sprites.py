@@ -32,7 +32,7 @@ class Car(pygame.sprite.Sprite):
         self.rect.center = self.pos
         self.rot = 0
         self.index = 0
-        
+        self.vision_rect = None
         
 
     def initcoord(self, coordinate):
@@ -69,6 +69,7 @@ class Car(pygame.sprite.Sprite):
         self.image = pygame.transform.rotate(self.game.car_image, self.rot)
         self.image90 = pygame.transform.rotate(self.image, 90)
         self.rect = self.image.get_rect()
+        self.anticollisione()
         self.vel += self.acc 
         if self.vel.length() > MAX_SPEED:
             self.vel.scale_to_length(MAX_SPEED)
@@ -77,6 +78,29 @@ class Car(pygame.sprite.Sprite):
         self.get_direction()
         self.vision_rect = self.creavisione()
         
+    def anticollisione(self):
+        if self.vision_rect:
+            for car in self.groups:
+                if car != self and car.vision_rect != None: #aggiunta per auto appena create
+                    if self.vision_rect.colliderect(car.rect):
+                        dist = (self.pos - car.pos)
+                        dist.normalize_ip()
+                        a = round(dist.angle_to(vec(1,0)))
+                        if a > 100:
+                            self.vel = vec(0,0)
+                            self.acc = vec(0,0)
+                        else:
+                            self.vel = vec(0,0)
+                        print(a)
+                        #self.acc = [a/2 for a in self.acc]
+                    #elif self.vision_rect.colliderect(car.vision_rect):
+                    #    self.vel = vec(0,0)
+                        #dist = self.pos - car.pos
+                        #if 0 < dist.length() < 10 :
+                        #    self.acc += dist.normalize()
+                    #if self.vision_rect.colliderect(car.rect):
+                    #   self.vel -= [v/2 for v in self.acc]
+                    #   break
 
     def get_direction(self):
         
@@ -90,15 +114,15 @@ class Car(pygame.sprite.Sprite):
            self.direzione = "OVEST"
 
     def creavisione(self):
-
+        value = [x/2 for x in self.image90.get_size()]
         if self.direzione == 'EST':
-            return pygame.Rect((self.rect.topright[0], self.rect.topright[1] - 14), self.image90.get_size())
+            return pygame.Rect((self.rect.topright[0], self.rect.topright[1]), value)
         elif self.direzione == 'OVEST':
-            return pygame.Rect((self.rect.topleft[0] - (self.image.get_size())[1], self.rect.topleft[1] - 14), self.image90.get_size())
+            return pygame.Rect((self.rect.topleft[0] - value[0], self.rect.topleft[1]), value)
         elif self.direzione == 'NORD': 
-            return pygame.Rect((self.rect.topleft[0] - 20, self.rect.topleft[1] - (self.image.get_size())[0]), self.image90.get_size())
+            return pygame.Rect((self.rect.topleft[0] , self.rect.topleft[1] - value[1]), value)
         elif self.direzione == 'SUD':
-            return pygame.Rect((self.rect.bottomleft[0] - 20, self.rect.bottomleft[1]), self.image90.get_size())
+            return pygame.Rect((self.rect.bottomleft[0] , self.rect.bottomleft[1]), value)
         
     def draw_vectors(self):
         scale = 25
