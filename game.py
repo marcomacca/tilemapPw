@@ -1,5 +1,7 @@
 import os
-import pygame , pytmx, random
+import pygame
+import pytmx
+import random
 from math import sin, radians, degrees, copysign
 from pygame.math import Vector2
 from tilemap import *
@@ -30,20 +32,26 @@ class Game:
         self.car_image = pygame.image.load(image_path).convert_alpha()
         self.car_image = pygame.transform.scale(self.car_image, (64, 32))
         self.lista = []
-        
+        self.list_trfl = []
 
     def new(self):
         # initialize all variables and do all the setup for a new game
         self.all_sprites = pygame.sprite.Group()
-        self.vision = pygame.sprite.Group()
+        self.trfl = pygame.sprite.Group()
         self.listacord = self.map.tmxdata.objectgroups
         for tile_object in self.map.tmxdata.objectgroups:
-            #if 'E' in tile_object.name:
-            self.lista.append(tile_object)
+            if 'traffic' in tile_object.name:
+                Traffic_Light(self, tile_object)  
+            elif 'shape' in tile_object.name:
+                a = tile_object
+            else:
+                self.lista.append(tile_object)
+
         #for x in self.lista :
-        #    Car(self, random.choice(self.lista))  
+        #    Car(self, random.choice(self.lista))
             #self.listaPath.append(tile_object)
-        #filtered_numbers = [item for item in self.listaPath if 'A' in item.name ] 
+        #filtered_numbers = [item for item in self.listaPath if 'A' in
+        #item.name ]
         #for x in filtered_numbers:
         #    print(x)
             #if tile_object.name == 'car':
@@ -52,16 +60,17 @@ class Game:
             ##    self.car = Car(self, tile_object.x/2 , tile_object.y/2 )
             ##elif tile_object.name != None:
             ##    if "point" in tile_object.name:
-            ##        self.lista.append(Vector2(tile_object.x, tile_object.y))            
+            ##        self.lista.append(Vector2(tile_object.x, tile_object.y))
             #elif tile_object.name == None:
-            #        self.lista.append(Vector2(tile_object.x/2, tile_object.y/2))
+            #        self.lista.append(Vector2(tile_object.x/2,
+            #        tile_object.y/2))
 
 
 
     def run(self):
         # game loop - set self.playing = False to end the game
         while not self.exit:
-            self.dt = self.clock.tick(self.ticks)/ 500.0  # fix for Python 2.x
+            self.dt = self.clock.tick(self.ticks) / 500.0  # fix for Python 2.x
             self.events()
             self.update()
             self.draw()
@@ -80,14 +89,18 @@ class Game:
         self.screen.blit(a, (0,0))
         # self.draw_grid()
         self.all_sprites.draw(self.screen)
-        #for sprite in self.all_sprites:
-        #    sprite.draw_vectors()
-        #    sprite.draw_rect()
+        #for l in self.trfl:
+        #    l.draw_rect()
+        for sprite in self.all_sprites:
+            sprite.draw_vectors()
+            sprite.draw_rect()
         #    if self.draw_debug:
-        #        pg.draw.rect(self.screen, CYAN, self.camera.apply_rect(sprite.hit_rect), 1)
+        #        pg.draw.rect(self.screen, CYAN,
+        #        self.camera.apply_rect(sprite.hit_rect), 1)
         #if self.draw_debug:
         #    for wall in self.walls:
-        #        pg.draw.rect(self.screen, CYAN, self.camera.apply_rect(wall.rect), 1)
+        #        pg.draw.rect(self.screen, CYAN,
+        #        self.camera.apply_rect(wall.rect), 1)
         pygame.display.update()
         pygame.display.flip()         
 
@@ -107,8 +120,22 @@ class Game:
       
     def update(self):
         self.all_sprites.update()
+        #for sprite in self.trfl:
+        #    a = pygame.sprite.spritecollide(sprite, self.all_sprites,True)
+        #    print(a)
         #for sprite in self.all_sprites:
-        #    pygame.sprite.groupcollide(self.all_sprites,self.all_sprites, True, False)
+        ##    pygame.sprite.groupcollide(self.all_sprites,self.all_sprites,
+        ##    True, False)
+        #    for a in pygame.sprite.spritecollide(sprite, self.all_sprites,False,pygame.sprite.collide_circle):  
+        #        if a != sprite:
+        #            c = a.left_right(a.pos, sprite.pos)
+        #            if c > 0:
+        #               a.vel = vec(0,0)
+        #               a.acc = vec(0,0)
+        #            #elif c < 0:
+        #            #   a.vel = vec(0,0)
+                    
+            #hits = pygame.sprite.groupcollide(sprite, zy_enemies, True, False, pygame.sprite.collide_circle)
 
 
 
