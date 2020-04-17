@@ -22,17 +22,17 @@ class Game:
 
     def load_data(self):
         current_dir = os.path.dirname(os.path.abspath(__file__))
-        img_folder = os.path.join(current_dir, 'img')
+        self.img_folder = os.path.join(current_dir, 'img')
         map_folder = os.path.join(current_dir, 'map')
-        image_path = os.path.join(img_folder, "car.png")
+        car_path = os.path.join(self.img_folder, "car.png")
         map_path = os.path.join(map_folder, "dc.tmx")
         self.map = TiledMap(map_path)
         self.map_img = self.map.make_map()
         self.map_rect = self.map_img.get_rect()
-        self.car_image = pygame.image.load(image_path).convert_alpha()
+        self.car_image = pygame.image.load(car_path).convert_alpha()
         self.car_image = pygame.transform.scale(self.car_image, (64, 32))
         self.lista = []
-        self.list_trfl = []
+
 
     def new(self):
         # initialize all variables and do all the setup for a new game
@@ -54,26 +54,18 @@ class Game:
         #item.name ]
         #for x in filtered_numbers:
         #    print(x)
-            #if tile_object.name == 'car':
-            #    Car(self, tile_object.x/2 , tile_object.y/2 )
-            ##elif tile_object.name == 'car2':
-            ##    self.car = Car(self, tile_object.x/2 , tile_object.y/2 )
-            ##elif tile_object.name != None:
-            ##    if "point" in tile_object.name:
-            ##        self.lista.append(Vector2(tile_object.x, tile_object.y))
-            #elif tile_object.name == None:
-            #        self.lista.append(Vector2(tile_object.x/2,
-            #        tile_object.y/2))
 
 
 
     def run(self):
         # game loop - set self.playing = False to end the game
+        self.i = 0
         while not self.exit:
             self.dt = self.clock.tick(self.ticks) / 500.0  # fix for Python 2.x
             self.events()
             self.update()
-            self.draw()
+            self.draw() 
+            
         pygame.quit()
 
     def draw_grid(self):
@@ -84,33 +76,35 @@ class Game:
 
     def draw(self):
         pygame.display.set_caption("{:.2f}".format(self.clock.get_fps()))
-        #self.screen.fill((0, 0, 0))
+        self.screen.fill((0, 0, 0))
         a = pygame.transform.scale(self.map_img, (1920, 1088))
         self.screen.blit(a, (0,0))
         # self.draw_grid()
         self.all_sprites.draw(self.screen)
+        self.trfl.draw(self.screen)
         #for l in self.trfl:
         #    l.draw_rect()
         for sprite in self.all_sprites:
             sprite.draw_vectors()
-            sprite.draw_rect()
-        #    if self.draw_debug:
-        #        pg.draw.rect(self.screen, CYAN,
-        #        self.camera.apply_rect(sprite.hit_rect), 1)
-        #if self.draw_debug:
-        #    for wall in self.walls:
-        #        pg.draw.rect(self.screen, CYAN,
-        #        self.camera.apply_rect(wall.rect), 1)
-        pygame.display.update()
+            #sprite.draw_rect()
         pygame.display.flip()         
 
+
+        
+   
     def events(self):
             
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.exit = True
                 elif event.type == pygame.MOUSEBUTTONUP:
-                     Car(self, random.choice(self.lista))  
+                     Car(self, random.choice(self.lista))
+                     if self.i >= 2:
+                         self.i = 0
+                     else :
+                        self.i += 1
+                     for a in self.trfl:
+                         a.change_sign(self.i)
                 #    pos = pygame.mouse.get_pos()
                 #    Car(self, pos[0] , pos[1] )
                 elif  event.type == pygame.KEYDOWN:
@@ -121,7 +115,7 @@ class Game:
     def update(self):
         self.all_sprites.update()
         #for sprite in self.trfl:
-        #    a = pygame.sprite.spritecollide(sprite, self.all_sprites,True)
+        #    a = pygame.sprite.spritecollide(sprite, self.all_sprites,False)
         #    print(a)
         #for sprite in self.all_sprites:
         ##    pygame.sprite.groupcollide(self.all_sprites,self.all_sprites,

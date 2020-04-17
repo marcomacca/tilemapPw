@@ -1,4 +1,4 @@
-import pygame
+import pygame, os
 from math import sin, radians, degrees, copysign
 from random import randint, uniform
 from pygame.math import Vector2 as vec
@@ -17,24 +17,37 @@ GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 DARKGRAY = (40, 40, 40)
-
+signal_list = ["red.png","green.png", "yellow.png"]
 
 class Traffic_Light(pygame.sprite.Sprite):
     def __init__(self, game, lista):
         self.groups = game.trfl
         self.game = game
         pygame.sprite.Sprite.__init__(self, self.groups)
-        self.create(lista)
-        self.hit_rect = self.rect
-        #self.rect.x = x
-        #self.rect.y = y
+        self.init(lista)
+        self.image = pygame.image.load(os.path.join(game.img_folder, "red.png"))
+        self.image = pygame.transform.scale(self.image, (31, 81))
+        self.rect = self.image.get_bounding_rect()
+        self.rect.center = self.pos
+        self.color = 'red'
     
-    def create(self, coordinate):
+    def init(self, coordinate):
         for tile_object in coordinate:
             if tile_object.name == 'linea':
-                self.rect = pygame.Rect(tile_object.x/2,tile_object.y/2, tile_object.width/2, tile_object.height/2)
+                self.rect_linea = pygame.Rect(tile_object.x/2,tile_object.y/2, tile_object.width/2, tile_object.height/2)
             else:
                 self.pos =  (tile_object.x/2,tile_object.y/2)
+
+    def change_sign(self, index):
+        color = signal_list[index]
+        self.image = pygame.image.load(os.path.join(self.game.img_folder,color))
+        self.image = pygame.transform.scale(self.image, (31, 81))
+        if index == 0:
+            self.color = 'red'
+        elif index == 1:
+            self.color = 'green'
+        elif index == 2:
+            self.color = 'yellow'        
 
     def draw_rect(self):
         pygame.draw.rect(self.game.screen, WHITE, self.rect)
@@ -56,7 +69,7 @@ class Car(pygame.sprite.Sprite):
         self.rot = 0
         self.index = 0
         self.vision_rect = None
-        self.camera = vec(0, 0)
+        
 
  
 
@@ -68,6 +81,23 @@ class Car(pygame.sprite.Sprite):
             lista.append(vec(tile_object.x / 2, tile_object.y / 2))
         return lista
 
+    def controllosemaforo(self, listasemafori):
+        for s in listasemafori:
+            if self.vision_rect != None:
+                 if s.color == 'red':
+                     if self.vision_rect.colliderect(s.rect_linea):
+                         self.vel = vec(0,0)
+                         self.acc = vec(0,0)
+                         break
+                 elif s.color == 'yellow':
+                     if self.vision_rect.colliderect(s.rect_linea):
+                         self.vel = vec(0,0)
+                         break
+            #elif s.colore == 'green':
+            #    if self.visione.colliderect(s.rect):
+            #        self.speedy = 2
+            #        self.speedx = 2
+            #        break
     
     def seek_with_approach(self, target):
         target1 = target[self.index]
@@ -97,6 +127,7 @@ class Car(pygame.sprite.Sprite):
         #self.rect = self.image.get_rect()
         self.rect = self.image.get_bounding_rect()
         self.anticollisione()
+        self.controllosemaforo(self.game.trfl)
         self.vel += self.acc 
         if self.vel.length() > MAX_SPEED:
             self.vel.scale_to_length(MAX_SPEED)
@@ -104,6 +135,7 @@ class Car(pygame.sprite.Sprite):
         self.rect.center = self.pos
         self.get_direction()
         self.vision_rect = self.creavisione()
+        
         
     def anticollisione(self):
         if self.vision_rect:
