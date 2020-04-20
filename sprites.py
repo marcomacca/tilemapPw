@@ -147,7 +147,12 @@ class Car(pygame.sprite.Sprite):
                          self.vel = vec(0,0)
                          self.acc = vec(0,0)
                      elif self.vision_rect.colliderect(car.vision_rect):
-                         self.vel = vec(0,0)
+                         a = self.left_right(self.pos, car.pos)
+                         if a > 0:
+                            self.vel = vec(0,0)
+                            self.acc = vec(0,0)
+                         elif a < 0:
+                            car.vel = vec(0,0)
                         #a = self.left_right(self.pos, car.pos)
                         #print(a)
                         #if a > 0:

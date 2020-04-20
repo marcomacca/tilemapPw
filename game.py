@@ -32,7 +32,23 @@ class Game:
         self.car_image = pygame.image.load(car_path).convert_alpha()
         self.car_image = pygame.transform.scale(self.car_image, (64, 32))
         self.lista = []
+    
+    def convert(self,seconds):
+         min, sec = divmod(seconds, 60)
+         hour, min = divmod(min, 60)
+         if hour == 24:
+             hour = 0
+         #return "%02d:%02d" % (hour, min)
+         return (hour, min)
 
+    def trafficSet(self,timesimulator):
+         ora = int(self.convert(timesimulator)[0])
+         if ora < 8 or ora > 21:
+             return 1
+         elif ora in range(8,11) or ora in range(14,18):
+             return 2
+         else:
+             return 3        
 
     def new(self):
         # initialize all variables and do all the setup for a new game
@@ -60,7 +76,18 @@ class Game:
     def run(self):
         # game loop - set self.playing = False to end the game
         self.i = 0
+        self.timerlight = pygame.USEREVENT + 1
+        pygame.time.set_timer(self.timerlight, 3000)
+        self.timertrafficlight = pygame.USEREVENT + 2
+        pygame.time.set_timer(self.timertrafficlight, 9000)
+        self.spawntimer = pygame.USEREVENT + 3
+        pygame.time.set_timer(self.spawntimer, 3000)
+        pygame.time.set_timer(pygame.USEREVENT + 4, 1)
+        self.signal_counter = 0
+        self.signal_counter1 = 1
+        self.s1 = 0
         while not self.exit:
+            self.traffic = self.trafficSet(self.s1 * 30)
             self.dt = self.clock.tick(self.ticks) / 500.0  # fix for Python 2.x
             self.events()
             self.update()
@@ -97,23 +124,42 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.exit = True
-                elif event.type == pygame.MOUSEBUTTONUP:
-                     Car(self, random.choice(self.lista))
-                     if self.i >= 2:
-                         self.i = 0
-                     else :
-                        self.i += 1
-                     for a in self.trfl:
-                         a.change_sign(self.i)
-                #    pos = pygame.mouse.get_pos()
-                #    Car(self, pos[0] , pos[1] )
-                elif  event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
-                        self.exit = True
+                elif event.type == self.spawntimer:
+                    for a in range(self.traffic):
+                        Car(self, random.choice(self.lista))
+                if event.type == self.timerlight:
+                     self.signal_counter1 += 1
+                     if self.signal_counter1 > 2:
+                         self.signal_counter1 = 0
+                if event.type == self.timertrafficlight:
+                     self.signal_counter += 1
+                     if self.signal_counter > 3:
+                         self.signal_counter = 0
+
+                #elif event.type == pygame.MOUSEBUTTONUP:
+                #         Car(self, random.choice(self.lista))
+                #         if self.i >= 2:
+                #         self.i = 0
+                #     else :
+                #        self.i += 1
+                #     for a in self.trfl:
+                #         a.change_sign(self.i)
+                ##    pos = pygame.mouse.get_pos()
+                ##    Car(self, pos[0] , pos[1] )
+                #elif  event.type == pygame.KEYDOWN:
+                #    if event.key == pygame.K_ESCAPE:
+                #        self.exit = True
 
       
     def update(self):
         self.all_sprites.update()
+        trfl_list = self.trfl.sprites()
+        if self.signal_counter == 0 or self.signal_counter == 2:
+            trfl_list[0].change_sign(self.signal_counter1)
+            trfl_list[2].change_sign(self.signal_counter1)
+        else:
+            trfl_list[1].change_sign(self.signal_counter1)
+            trfl_list[3].change_sign(self.signal_counter1)
         #for sprite in self.trfl:
         #    a = pygame.sprite.spritecollide(sprite, self.all_sprites,False)
         #    print(a)
