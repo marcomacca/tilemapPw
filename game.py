@@ -86,7 +86,7 @@ class Game:
         #    l.draw_rect()
         for sprite in self.all_sprites:
             sprite.draw_vectors()
-            #sprite.draw_rect()
+            sprite.draw_rect()
         pygame.display.flip()         
 
 

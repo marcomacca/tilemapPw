@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="60" height="34" tilewidth="64" tileheight="64" infinite="0" nextlayerid="21" nextobjectid="176">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="60" height="34" tilewidth="64" tileheight="64" infinite="0" nextlayerid="21" nextobjectid="182">
  <tileset firstgid="1" source="tilesheet_complete.tsx"/>
  <layer id="1" name="C1" width="60" height="34">
   <data encoding="csv">
@@ -96,25 +96,25 @@
   <object id="144" x="1606.06" y="1266.67">
    <point/>
   </object>
-  <object id="145" x="1781.82" y="1266.67">
+  <object id="145" x="1854.82" y="1275.67">
    <point/>
   </object>
-  <object id="146" x="1848.48" y="1257.58">
+  <object id="146" x="1894.48" y="1268.58">
    <point/>
   </object>
-  <object id="147" x="1909.09" y="1245.45">
+  <object id="147" x="1936.09" y="1260.45">
    <point/>
   </object>
-  <object id="148" x="1948.48" y="1215.15">
+  <object id="148" x="1965.48" y="1232.15">
    <point/>
   </object>
-  <object id="149" x="1969.7" y="1187.88">
+  <object id="149" x="1976.7" y="1195.88">
    <point/>
   </object>
-  <object id="150" x="1981.82" y="1090.91">
+  <object id="150" x="1975.82" y="1148.91">
    <point/>
   </object>
-  <object id="151" x="1981.82" y="1021.21">
+  <object id="151" x="1969.82" y="1022.21">
    <point/>
   </object>
   <object id="152" x="1972.73" y="506.061">
@@ -134,7 +134,7 @@
   <object id="134" x="1360.61" y="1260.61">
    <point/>
   </object>
-  <object id="135" x="1654.55" y="1260.61">
+  <object id="135" x="1818.55" y="1279.61">
    <point/>
   </object>
   <object id="136" x="2548.48" y="1263.64">
@@ -163,34 +163,28 @@
   <object id="8" x="1710" y="1344">
    <point/>
   </object>
-  <object id="9" x="1732" y="1338">
+  <object id="9" x="1738.67" y="1345.67">
    <point/>
   </object>
-  <object id="10" x="1746" y="1338">
+  <object id="10" x="1759.33" y="1352.67">
    <point/>
   </object>
-  <object id="11" x="1758" y="1344">
+  <object id="13" x="1773.33" y="1362.33">
    <point/>
   </object>
-  <object id="12" x="1770" y="1352">
+  <object id="14" x="1786.33" y="1375.67">
    <point/>
   </object>
-  <object id="13" x="1780" y="1360">
+  <object id="15" x="1791" y="1391.67">
    <point/>
   </object>
-  <object id="14" x="1788" y="1374">
+  <object id="16" x="1787" y="1414.33">
    <point/>
   </object>
-  <object id="15" x="1790" y="1390">
+  <object id="17" x="1780" y="1441.33">
    <point/>
   </object>
-  <object id="16" x="1782" y="1406">
-   <point/>
-  </object>
-  <object id="17" x="1778" y="1428">
-   <point/>
-  </object>
-  <object id="18" x="1778" y="1466">
+  <object id="18" x="1775.33" y="1493.33">
    <point/>
   </object>
   <object id="19" x="1780" y="2004">
@@ -248,25 +242,22 @@
   <object id="68" x="3052" y="1086">
    <point/>
   </object>
-  <object id="69" x="2160" y="1082">
+  <object id="69" x="2180" y="1091">
    <point/>
   </object>
-  <object id="70" x="2142" y="1086">
+  <object id="70" x="2144" y="1096">
    <point/>
   </object>
-  <object id="78" x="2115.5" y="1090.5">
+  <object id="78" x="2117.5" y="1095.5">
    <point/>
   </object>
-  <object id="79" x="2094.5" y="1091">
+  <object id="79" x="2094.5" y="1094">
    <point/>
   </object>
-  <object id="80" x="2081" y="1089">
+  <object id="81" x="2072" y="1080.5">
    <point/>
   </object>
-  <object id="81" x="2070" y="1078.5">
-   <point/>
-  </object>
-  <object id="82" x="2058.5" y="1062">
+  <object id="82" x="2053.5" y="1062">
    <point/>
   </object>
   <object id="83" x="2051" y="1029.5">
@@ -306,25 +297,25 @@
   <object id="107" x="1870.67" y="1065.33">
    <point/>
   </object>
-  <object id="109" x="1865.33" y="1158.67">
+  <object id="109" x="1861.33" y="1117.67">
    <point/>
   </object>
-  <object id="110" x="1857.33" y="1197.33">
+  <object id="110" x="1853.33" y="1171.33">
    <point/>
   </object>
-  <object id="111" x="1854.67" y="1224">
+  <object id="111" x="1848.67" y="1206">
    <point/>
   </object>
-  <object id="112" x="1869.33" y="1244">
+  <object id="112" x="1854.33" y="1229">
    <point/>
   </object>
-  <object id="113" x="1893.33" y="1257.33">
+  <object id="113" x="1871.33" y="1247.33">
    <point/>
   </object>
-  <object id="114" x="1944" y="1260">
+  <object id="114" x="1896" y="1261">
    <point/>
   </object>
-  <object id="115" x="2077.33" y="1265.33">
+  <object id="115" x="1935.33" y="1277.33">
    <point/>
   </object>
   <object id="116" x="2200" y="1272">
@@ -454,61 +445,71 @@
   <object id="94" x="1970.67" y="1466.67">
    <point/>
   </object>
-  <object id="95" x="1978.67" y="1360">
+  <object id="95" x="1973.67" y="1393">
    <point/>
   </object>
-  <object id="96" x="1984" y="1301.33">
+  <object id="96" x="1981" y="1356.33">
    <point/>
   </object>
-  <object id="97" x="1977.33" y="1256">
+  <object id="97" x="1986.33" y="1302">
    <point/>
   </object>
-  <object id="98" x="1945.33" y="1202.67">
+  <object id="98" x="1991.33" y="1258.67">
    <point/>
   </object>
-  <object id="99" x="1869.33" y="1168">
+  <object id="99" x="1977.33" y="1229">
    <point/>
   </object>
-  <object id="100" x="1777.33" y="1168">
+  <object id="100" x="1960.33" y="1203">
    <point/>
   </object>
-  <object id="101" x="1610.67" y="1168">
+  <object id="101" x="1935.67" y="1186">
    <point/>
   </object>
-  <object id="102" x="1328" y="1165.33">
+  <object id="102" x="1907" y="1176.33">
    <point/>
   </object>
-  <object id="103" x="45.3333" y="1169.33">
+  <object id="103" x="1876.33" y="1168.33">
+   <point/>
+  </object>
+  <object id="177" x="1839" y="1159">
+   <point/>
+  </object>
+  <object id="178" x="1802" y="1158">
+   <point/>
+  </object>
+  <object id="179" x="1744" y="1156">
+   <point/>
+  </object>
+  <object id="180" x="1580" y="1167">
+   <point/>
+  </object>
+  <object id="181" x="37" y="1172">
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="16" name="trafficlight1">
+ <objectgroup id="16" name="trafficlight1" visible="0">
   <object id="155" name="linea" x="1740" y="1007.33" width="170" height="16"/>
-  <object id="156" name="punto" x="1586.67" y="871.333">
+  <object id="156" name="punto" x="1540.67" y="847.333">
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="17" name="&#10;trafficlight2">
+ <objectgroup id="17" name="&#10;trafficlight2" visible="0">
   <object id="165" name="linea" x="1712" y="1226.67" width="16" height="172"/>
-  <object id="166" name="punto" x="1656" y="1522.67">
+  <object id="166" name="punto" x="1540" y="1554.67">
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="18" name="&#10;trafficlight3">
-  <object id="167" name="punto" x="2210.67" y="1529.33">
+ <objectgroup id="18" name="&#10;trafficlight3" visible="0">
+  <object id="167" name="punto" x="2256.67" y="1555.33">
    <point/>
   </object>
   <object id="171" name="linea" x="1925.33" y="1408.67" width="177.333" height="14"/>
  </objectgroup>
- <objectgroup id="19" name="&#10;trafficlight4">
+ <objectgroup id="19" name="&#10;trafficlight4" visible="0">
   <object id="172" name="linea" x="2111.33" y="1033.33" width="12" height="172.667"/>
-  <object id="173" name="punto" x="2219.33" y="886.667">
+  <object id="173" name="punto" x="2293.33" y="848.667">
    <point/>
-  </object>
- </objectgroup>
- <objectgroup id="20" name="shape">
-  <object id="175" x="838" y="1346">
-   <polygon points="0,0 34.6667,-27.3333 52.6667,2.66667 53.3333,28 34.6667,56.6667 0.666667,32"/>
   </object>
  </objectgroup>
 </map>

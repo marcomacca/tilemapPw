@@ -103,20 +103,22 @@ class Car(pygame.sprite.Sprite):
         target1 = target[self.index]
         self.desired = (target1 - self.pos)
         dist = self.desired.length()
-        if dist < APPROACH_RADIUS:
-            self.index += 1
-            if self.index == len(target):
-                self.kill()
+        #if dist < APPROACH_RADIUS:
+        #    self.index += 1
+        #    if self.index == len(target):
+        #        self.kill()
         self.desired.normalize_ip()
         if dist < APPROACH_RADIUS:
             self.desired *= dist / APPROACH_RADIUS * MAX_SPEED
+            self.index += 1
+            if self.index == len(target):
+                self.kill()
         else:
             self.desired *= MAX_SPEED
         steer = (self.desired - self.vel)
         if steer.length() > MAX_FORCE:
             steer.scale_to_length(MAX_FORCE)
         self.rot = round(int(self.desired.angle_to(vec(1,0))))
-        print(self.rot)
         return steer
 
     def update(self):
@@ -124,7 +126,6 @@ class Car(pygame.sprite.Sprite):
         self.acc = self.seek_with_approach(self.lista[1:])
         self.image = pygame.transform.rotate(self.game.car_image, self.rot)
         self.image90 = pygame.transform.rotate(self.image, 90)
-        #self.rect = self.image.get_rect()
         self.rect = self.image.get_bounding_rect()
         self.anticollisione()
         self.controllosemaforo(self.game.trfl)
@@ -141,15 +142,17 @@ class Car(pygame.sprite.Sprite):
         if self.vision_rect:
             for car in self.groups:
                 if car != self and car.vision_rect != None: #aggiunta per auto appena create
-                    if self.vision_rect.colliderect(car.rect):
+                     if self.vision_rect.colliderect(car.rect):
                         a = self.left_right(self.pos, car.pos)
+                        print(a)
                         if a > 0:
                             self.vel = vec(0,0)
                             self.acc = vec(0,0)
                         elif a < 0:
                             self.vel = vec(0,0)
                         #else:
-                            #print(a)
+                        #    self.vel = vec(0,0)
+                        #    print(a)
                  
 
     def left_right(self, A, B):
