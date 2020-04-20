@@ -25,7 +25,7 @@ class Game:
         self.img_folder = os.path.join(current_dir, 'img')
         map_folder = os.path.join(current_dir, 'map')
         car_path = os.path.join(self.img_folder, "car.png")
-        map_path = os.path.join(map_folder, "map.tmx")
+        map_path = os.path.join(map_folder, "testmap.tmx")
         self.map = TiledMap(map_path)
         self.map_img = self.map.make_map()
         self.map_rect = self.map_img.get_rect()
@@ -44,11 +44,11 @@ class Game:
     def trafficSet(self,timesimulator):
          ora = int(self.convert(timesimulator)[0])
          if ora < 8 or ora > 21:
-             return 1
-         elif ora in range(8,11) or ora in range(14,18):
              return 2
+         elif ora in range(8,11) or ora in range(14,18):
+             return 6
          else:
-             return 3        
+             return 10       
 
     def new(self):
         # initialize all variables and do all the setup for a new game
@@ -75,7 +75,7 @@ class Game:
 
     def run(self):
         # game loop - set self.playing = False to end the game
-        self.i = 0
+        #self.i = 0
         self.timerlight = pygame.USEREVENT + 1
         pygame.time.set_timer(self.timerlight, 3000)
         self.timertrafficlight = pygame.USEREVENT + 2
@@ -88,7 +88,7 @@ class Game:
         self.s1 = 0
         while not self.exit:
             self.traffic = self.trafficSet(self.s1 * 30)
-            self.dt = self.clock.tick(self.ticks) / 500.0  # fix for Python 2.x
+            self.dt = self.clock.tick(self.ticks) / 500.0  
             self.events()
             self.update()
             self.draw() 

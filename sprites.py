@@ -92,22 +92,17 @@ class Car(pygame.sprite.Sprite):
                          break
                  elif s.color == 'yellow':
                      if self.vision_rect.colliderect(s.rect_linea):
-                         self.vel = vec(0,0)
+                         self.vision_rect = self.creavisione(50)
                          break
-            #elif s.colore == 'green':
-            #    if self.visione.colliderect(s.rect):
-            #        self.speedy = 2
-            #        self.speedx = 2
-            #        break
-    
+                 elif s.color == 'green':
+                     if self.vision_rect.colliderect(s.rect_linea):
+                        self.vision_rect = self.creavisione(80)
+                        break
+
     def seek_with_approach(self, target):
         target1 = target[self.index]
         self.desired = (target1 - self.pos)
         dist = self.desired.length()
-        #if dist < APPROACH_RADIUS:
-        #    self.index += 1
-        #    if self.index == len(target):
-        #        self.kill()
         self.desired.normalize_ip()
         if dist < APPROACH_RADIUS:
             self.desired *= dist / APPROACH_RADIUS * MAX_SPEED
@@ -129,14 +124,14 @@ class Car(pygame.sprite.Sprite):
         self.image90 = pygame.transform.rotate(self.image, 90)
         self.rect = self.image.get_bounding_rect()
         self.anticollisione()
+        self.vision_rect = self.creavisione(20)
         self.controllosemaforo(self.game.trfl)
         self.vel += self.acc 
         if self.vel.length() > MAX_SPEED:
             self.vel.scale_to_length(MAX_SPEED)
         self.pos += self.vel
         self.rect.center = self.pos
-        #self.get_direction()
-        self.vision_rect = self.creavisione()
+        
         
         
     def anticollisione(self):
@@ -150,20 +145,9 @@ class Car(pygame.sprite.Sprite):
                          a = self.left_right(self.pos, car.pos)
                          if a > 0:
                             self.vel = vec(0,0)
-                            self.acc = vec(0,0)
                          elif a < 0:
                             car.vel = vec(0,0)
-                        #a = self.left_right(self.pos, car.pos)
-                        #print(a)
-                        #if a > 0:
-                        #    self.vel = vec(0,0)
-                        #    self.acc = vec(0,0)
-                        #elif a < 0:
-                        #    self.vel = vec(0,0)
-                        ##else:
-                        ##    self.vel = vec(0,0)
-                        ##    print(a)
-                 
+
 
     def left_right(self, A, B):
         return -A.x * B.y + A.y * B.x
@@ -187,21 +171,12 @@ class Car(pygame.sprite.Sprite):
         #else:
         #   self.direzione = None
 
-    def creavisione(self):
+    def creavisione(self,x):
         value = [x / 2 for x in self.image90.get_size()]
-        a = pygame.Rect((self.pos + self.desired * 20), value)
-        a.center = self.pos + self.desired * 20
+        a = pygame.Rect((self.pos + self.desired), value)
+        a.center = self.pos + self.desired * x
         return a
-        #if self.direzione == 'EST':
-        #    return pygame.Rect((self.rect.topright[0], self.rect.topright[1]), value)
-        #elif self.direzione == 'OVEST':
-        #    return pygame.Rect((self.rect.topleft[0] - value[0], self.rect.topleft[1]), value)
-        #elif self.direzione == 'NORD': 
-        #    return pygame.Rect((self.rect.topleft[0] , self.rect.topleft[1] - value[1]), value)
-        #elif self.direzione == 'SUD':
-        #    return pygame.Rect((self.rect.bottomleft[0] , self.rect.bottomleft[1]), value)
-        #else:
-        #    return None
+
     def draw_vectors(self):
         scale = 25
         # vel
@@ -213,6 +188,6 @@ class Car(pygame.sprite.Sprite):
     
     def draw_rect(self):
 
-        #pygame.draw.rect(self.game.screen, WHITE, self.rect)
+        pygame.draw.rect(self.game.screen, WHITE, self.rect)
         if self.vision_rect != None:
             pygame.draw.rect(self.game.screen, RED, self.vision_rect)
