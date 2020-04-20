@@ -25,7 +25,7 @@ class Game:
         self.img_folder = os.path.join(current_dir, 'img')
         map_folder = os.path.join(current_dir, 'map')
         car_path = os.path.join(self.img_folder, "car.png")
-        map_path = os.path.join(map_folder, "dc.tmx")
+        map_path = os.path.join(map_folder, "map.tmx")
         self.map = TiledMap(map_path)
         self.map_img = self.map.make_map()
         self.map_rect = self.map_img.get_rect()
