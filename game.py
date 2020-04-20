@@ -32,6 +32,7 @@ class Game:
         self.car_image = pygame.image.load(car_path).convert_alpha()
         self.car_image = pygame.transform.scale(self.car_image, (64, 32))
         self.lista = []
+        self.debug = False
     
     def convert(self,seconds):
          min, sec = divmod(seconds, 60)
@@ -111,9 +112,10 @@ class Game:
         self.trfl.draw(self.screen)
         #for l in self.trfl:
         #    l.draw_rect()
-        for sprite in self.all_sprites:
-            sprite.draw_vectors()
-            sprite.draw_rect()
+        if self.debug:
+            for sprite in self.all_sprites:
+                sprite.draw_vectors()
+                sprite.draw_rect()
         pygame.display.flip()         
 
 
@@ -136,7 +138,11 @@ class Game:
                      if self.signal_counter > 3:
                          self.signal_counter = 0
 
-                #elif event.type == pygame.MOUSEBUTTONUP:
+                elif event.type == pygame.MOUSEBUTTONUP:
+                    if self.debug:
+                        self.debug = False
+                    else:
+                        self.debug = True
                 #         Car(self, random.choice(self.lista))
                 #         if self.i >= 2:
                 #         self.i = 0
