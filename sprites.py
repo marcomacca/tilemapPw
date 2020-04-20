@@ -1,4 +1,5 @@
-import pygame, os
+import pygame
+import os
 from math import sin, radians, degrees, copysign
 from random import randint, uniform
 from pygame.math import Vector2 as vec
@@ -34,9 +35,9 @@ class Traffic_Light(pygame.sprite.Sprite):
     def init(self, coordinate):
         for tile_object in coordinate:
             if tile_object.name == 'linea':
-                self.rect_linea = pygame.Rect(tile_object.x/2,tile_object.y/2, tile_object.width/2, tile_object.height/2)
+                self.rect_linea = pygame.Rect(tile_object.x / 2,tile_object.y / 2, tile_object.width / 2, tile_object.height / 2)
             else:
-                self.pos =  (tile_object.x/2,tile_object.y/2)
+                self.pos = (tile_object.x / 2,tile_object.y / 2)
 
     def change_sign(self, index):
         color = signal_list[index]
@@ -134,7 +135,7 @@ class Car(pygame.sprite.Sprite):
             self.vel.scale_to_length(MAX_SPEED)
         self.pos += self.vel
         self.rect.center = self.pos
-        self.get_direction()
+        #self.get_direction()
         self.vision_rect = self.creavisione()
         
         
@@ -143,16 +144,20 @@ class Car(pygame.sprite.Sprite):
             for car in self.groups:
                 if car != self and car.vision_rect != None: #aggiunta per auto appena create
                      if self.vision_rect.colliderect(car.rect):
-                        a = self.left_right(self.pos, car.pos)
-                        print(a)
-                        if a > 0:
-                            self.vel = vec(0,0)
-                            self.acc = vec(0,0)
-                        elif a < 0:
-                            self.vel = vec(0,0)
-                        #else:
+                         self.vel = vec(0,0)
+                         self.acc = vec(0,0)
+                     elif self.vision_rect.colliderect(car.vision_rect):
+                         self.vel = vec(0,0)
+                        #a = self.left_right(self.pos, car.pos)
+                        #print(a)
+                        #if a > 0:
                         #    self.vel = vec(0,0)
-                        #    print(a)
+                        #    self.acc = vec(0,0)
+                        #elif a < 0:
+                        #    self.vel = vec(0,0)
+                        ##else:
+                        ##    self.vel = vec(0,0)
+                        ##    print(a)
                  
 
     def left_right(self, A, B):
@@ -165,6 +170,7 @@ class Car(pygame.sprite.Sprite):
         #    b parallel/antiparallel to a
 
     def get_direction(self):
+        print(self.rot)
         if self.rot in range(-5,5):
            self.direzione = "EST"
         elif self.rot in range(85,95):
@@ -177,17 +183,20 @@ class Car(pygame.sprite.Sprite):
         #   self.direzione = None
 
     def creavisione(self):
-        value = [x/2 for x in self.image90.get_size()]
-        if self.direzione == 'EST':
-            return pygame.Rect((self.rect.topright[0], self.rect.topright[1]), value)
-        elif self.direzione == 'OVEST':
-            return pygame.Rect((self.rect.topleft[0] - value[0], self.rect.topleft[1]), value)
-        elif self.direzione == 'NORD': 
-            return pygame.Rect((self.rect.topleft[0] , self.rect.topleft[1] - value[1]), value)
-        elif self.direzione == 'SUD':
-            return pygame.Rect((self.rect.bottomleft[0] , self.rect.bottomleft[1]), value)
-        else:
-            return None
+        value = [x / 2 for x in self.image90.get_size()]
+        a = pygame.Rect((self.pos + self.desired * 20), value)
+        a.center = self.pos + self.desired * 20
+        return a
+        #if self.direzione == 'EST':
+        #    return pygame.Rect((self.rect.topright[0], self.rect.topright[1]), value)
+        #elif self.direzione == 'OVEST':
+        #    return pygame.Rect((self.rect.topleft[0] - value[0], self.rect.topleft[1]), value)
+        #elif self.direzione == 'NORD': 
+        #    return pygame.Rect((self.rect.topleft[0] , self.rect.topleft[1] - value[1]), value)
+        #elif self.direzione == 'SUD':
+        #    return pygame.Rect((self.rect.bottomleft[0] , self.rect.bottomleft[1]), value)
+        #else:
+        #    return None
     def draw_vectors(self):
         scale = 25
         # vel
@@ -199,6 +208,6 @@ class Car(pygame.sprite.Sprite):
     
     def draw_rect(self):
 
-        pygame.draw.rect(self.game.screen, WHITE, self.rect)
+        #pygame.draw.rect(self.game.screen, WHITE, self.rect)
         if self.vision_rect != None:
             pygame.draw.rect(self.game.screen, RED, self.vision_rect)
