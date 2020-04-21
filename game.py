@@ -27,11 +27,13 @@ class Game:
         car_path = os.path.join(self.img_folder, "car.png")
         map_path = os.path.join(map_folder, "testmap.tmx")
         self.map = TiledMap(map_path)
-        self.map_img = self.map.make_map()
+        #self.map_img = self.map.make_map()
+        self.map_img = pygame.transform.scale(self.map.make_map(), (1920, 1088)).convert()
         self.map_rect = self.map_img.get_rect()
         self.car_image = pygame.image.load(car_path).convert_alpha()
-        self.car_image = pygame.transform.scale(self.car_image, (64, 32))
+        self.car_image = pygame.transform.scale(self.car_image, (52, 26))
         self.lista = []
+        self.centro = []
         self.debug = False
     
     def convert(self,seconds):
@@ -45,11 +47,11 @@ class Game:
     def trafficSet(self,timesimulator):
          ora = int(self.convert(timesimulator)[0])
          if ora < 8 or ora > 21:
-             return 2
+             return 4
          elif ora in range(8,11) or ora in range(14,18):
-             return 6
+             return 8
          else:
-             return 10       
+             return 12     
 
     def new(self):
         # initialize all variables and do all the setup for a new game
@@ -59,11 +61,14 @@ class Game:
         for tile_object in self.map.tmxdata.objectgroups:
             if 'traffic' in tile_object.name:
                 Traffic_Light(self, tile_object)  
-            elif 'shape' in tile_object.name:
-                a = tile_object
+            elif 'Centro' in tile_object.name:
+                self.centro = tile_object
             else:
                 self.lista.append(tile_object)
-
+        for tile_object in self.centro:
+            if tile_object.name == 'rect':
+                self.centro_rect = pygame.Rect(tile_object.x / 2,tile_object.y / 2, tile_object.width / 2, tile_object.height / 2)
+        self.trfl_list = self.trfl.sprites()
         #for x in self.lista :
         #    Car(self, random.choice(self.lista))
             #self.listaPath.append(tile_object)
@@ -89,7 +94,7 @@ class Game:
         self.s1 = 0
         while not self.exit:
             self.traffic = self.trafficSet(self.s1 * 30)
-            self.dt = self.clock.tick(self.ticks) / 500.0  
+            #self.dt = self.clock.tick(self.ticks) / 500.0  
             self.events()
             self.update()
             self.draw() 
@@ -105,8 +110,8 @@ class Game:
     def draw(self):
         pygame.display.set_caption("{:.2f}".format(self.clock.get_fps()))
         self.screen.fill((0, 0, 0))
-        a = pygame.transform.scale(self.map_img, (1920, 1088))
-        self.screen.blit(a, (0,0))
+        #self.map_img = pygame.transform.scale(self.map_img, (1920, 1088))
+        self.screen.blit(self.map_img, (0,0))
         # self.draw_grid()
         self.all_sprites.draw(self.screen)
         self.trfl.draw(self.screen)
@@ -159,16 +164,21 @@ class Game:
       
     def update(self):
         self.all_sprites.update()
-        trfl_list = self.trfl.sprites()
+        
         if self.signal_counter == 0 or self.signal_counter == 2:
-            trfl_list[0].change_sign(self.signal_counter1)
-            trfl_list[2].change_sign(self.signal_counter1)
+            self.trfl_list[0].change_sign(self.signal_counter1)
+            self.trfl_list[2].change_sign(self.signal_counter1)
         else:
-            trfl_list[1].change_sign(self.signal_counter1)
-            trfl_list[3].change_sign(self.signal_counter1)
+            self.trfl_list[1].change_sign(self.signal_counter1)
+            self.trfl_list[3].change_sign(self.signal_counter1)
         #for sprite in self.trfl:
         #    a = pygame.sprite.spritecollide(sprite, self.all_sprites,False)
         #    print(a)
+        for sprite in self.all_sprites:
+            a = pygame.sprite.spritecollide(sprite,self.all_sprites,False)
+            for x in a:
+                if x != sprite and sprite.index == 0:
+                    sprite.kill()
         #for sprite in self.all_sprites:
         ##    pygame.sprite.groupcollide(self.all_sprites,self.all_sprites,
         ##    True, False)

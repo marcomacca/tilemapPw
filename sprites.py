@@ -27,7 +27,7 @@ class Traffic_Light(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self, self.groups)
         self.init(lista)
         self.image = pygame.image.load(os.path.join(game.img_folder, "red.png"))
-        self.image = pygame.transform.scale(self.image, (31, 81))
+        self.image = pygame.transform.scale(self.image, (31, 81)).convert()
         self.rect = self.image.get_bounding_rect()
         self.rect.center = self.pos
         self.color = 'red'
@@ -42,7 +42,7 @@ class Traffic_Light(pygame.sprite.Sprite):
     def change_sign(self, index):
         color = signal_list[index]
         self.image = pygame.image.load(os.path.join(self.game.img_folder,color))
-        self.image = pygame.transform.scale(self.image, (31, 81))
+        self.image = pygame.transform.scale(self.image, (31, 81)).convert()
         if index == 0:
             self.color = 'red'
         elif index == 1:
@@ -92,12 +92,29 @@ class Car(pygame.sprite.Sprite):
                          break
                  elif s.color == 'yellow':
                      if self.vision_rect.colliderect(s.rect_linea):
-                         self.vision_rect = self.creavisione(50)
+                         if self.car_incrocio >= 2:
+                            self.vel = vec(0,0)
+                            self.acc = vec(0,0)
+                         else:
+                             self.vision_rect = self.creavisione(40,1)
+                             self.anticollisione()
                          break
                  elif s.color == 'green':
                      if self.vision_rect.colliderect(s.rect_linea):
-                        self.vision_rect = self.creavisione(80)
+                        if  self.car_incrocio >= 4:
+                            self.vel = vec(0,0)
+                            self.acc = vec(0,0)
+                        else:
+                            self.vision_rect = self.creavisione(40,1)
+                            self.anticollisione()
                         break
+
+    def controlloincrocio(self):
+        listcar = self.groups.sprites()
+        a = self.game.centro_rect.collidelistall(listcar)
+        print(len(a))
+        return len(a)
+
 
     def seek_with_approach(self, target):
         target1 = target[self.index]
@@ -120,11 +137,12 @@ class Car(pygame.sprite.Sprite):
     def update(self):
         
         self.acc = self.seek_with_approach(self.lista[1:])
-        self.image = pygame.transform.rotate(self.game.car_image, self.rot)
-        self.image90 = pygame.transform.rotate(self.image, 90)
+        self.image = pygame.transform.rotate(self.game.car_image, self.rot).convert_alpha()
+        self.image90 = pygame.transform.rotate(self.image, 90).convert_alpha()
         self.rect = self.image.get_bounding_rect()
+        self.vision_rect = self.creavisione(15,2)
         self.anticollisione()
-        self.vision_rect = self.creavisione(20)
+        self.car_incrocio = self.controlloincrocio()
         self.controllosemaforo(self.game.trfl)
         self.vel += self.acc 
         if self.vel.length() > MAX_SPEED:
@@ -135,16 +153,21 @@ class Car(pygame.sprite.Sprite):
         
         
     def anticollisione(self):
-        if self.vision_rect:
+        #if self.vision_rect:
             for car in self.groups:
-                if car != self and car.vision_rect != None: #aggiunta per auto appena create
+                if car != self and car.vision_rect != None:
+                   #if abs(car.pos-self.pos) < 10:
+                   #   car.kill()
+                   #else:  
                      if self.vision_rect.colliderect(car.rect):
                          self.vel = vec(0,0)
                          self.acc = vec(0,0)
+                         break
                      elif self.vision_rect.colliderect(car.vision_rect):
                          a = self.left_right(self.pos, car.pos)
                          if a > 0:
                             self.vel = vec(0,0)
+                            #self.acc = vec(0,0)
                          elif a < 0:
                             car.vel = vec(0,0)
 
@@ -158,21 +181,10 @@ class Car(pygame.sprite.Sprite):
         #    if a == 0
         #    b parallel/antiparallel to a
 
-    def get_direction(self):
-        print(self.rot)
-        if self.rot in range(-5,5):
-           self.direzione = "EST"
-        elif self.rot in range(85,95):
-           self.direzione = "NORD"
-        elif self.rot in range(-95,-85):
-           self.direzione = "SUD"
-        elif abs(self.rot) in range(175,185):
-           self.direzione = "OVEST"
-        #else:
-        #   self.direzione = None
 
-    def creavisione(self,x):
-        value = [x / 2 for x in self.image90.get_size()]
+
+    def creavisione(self,x, y):
+        value = [x / y for x in self.image90.get_size()]
         a = pygame.Rect((self.pos + self.desired), value)
         a.center = self.pos + self.desired * x
         return a
@@ -188,6 +200,7 @@ class Car(pygame.sprite.Sprite):
     
     def draw_rect(self):
 
+        #pygame.draw.rect(self.game.screen, WHITE, self.game.centro_rect)
         pygame.draw.rect(self.game.screen, WHITE, self.rect)
         if self.vision_rect != None:
             pygame.draw.rect(self.game.screen, RED, self.vision_rect)
