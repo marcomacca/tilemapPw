@@ -47,11 +47,11 @@ class Game:
     def trafficSet(self,timesimulator):
          ora = int(self.convert(timesimulator)[0])
          if ora < 8 or ora > 21:
-             return 4
+             return 6
          elif ora in range(8,11) or ora in range(14,18):
-             return 8
+             return 10
          else:
-             return 12     
+             return 16     
 
     def new(self):
         # initialize all variables and do all the setup for a new game

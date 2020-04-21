@@ -101,7 +101,7 @@ class Car(pygame.sprite.Sprite):
                          break
                  elif s.color == 'green':
                      if self.vision_rect.colliderect(s.rect_linea):
-                        if  self.car_incrocio >= 4:
+                        if  self.car_incrocio >= 3:
                             self.vel = vec(0,0)
                             self.acc = vec(0,0)
                         else:
