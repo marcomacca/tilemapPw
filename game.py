@@ -47,11 +47,11 @@ class Game:
     def trafficSet(self,timesimulator):
          ora = int(self.convert(timesimulator)[0])
          if ora < 8 or ora > 21:
-             return 6
+             return 4
          elif ora in range(8,11) or ora in range(14,18):
-             return 10
+             return 8
          else:
-             return 16     
+             return 12     
 
     def new(self):
         # initialize all variables and do all the setup for a new game
@@ -68,6 +68,8 @@ class Game:
         for tile_object in self.centro:
             if tile_object.name == 'rect':
                 self.centro_rect = pygame.Rect(tile_object.x / 2,tile_object.y / 2, tile_object.width / 2, tile_object.height / 2)
+            else:
+                self.centro_pos = vec(tile_object.x / 2,tile_object.y / 2)
         self.trfl_list = self.trfl.sprites()
         #for x in self.lista :
         #    Car(self, random.choice(self.lista))
@@ -94,7 +96,7 @@ class Game:
         self.s1 = 0
         while not self.exit:
             self.traffic = self.trafficSet(self.s1 * 30)
-            #self.dt = self.clock.tick(self.ticks) / 500.0  
+            self.dt = self.clock.tick(self.ticks) / 500.0  
             self.events()
             self.update()
             self.draw() 

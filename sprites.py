@@ -140,7 +140,11 @@ class Car(pygame.sprite.Sprite):
         self.image = pygame.transform.rotate(self.game.car_image, self.rot).convert_alpha()
         self.image90 = pygame.transform.rotate(self.image, 90).convert_alpha()
         self.rect = self.image.get_bounding_rect()
-        self.vision_rect = self.creavisione(15,2)
+        self.x = (self.game.centro_pos - self.pos)
+        if self.x.length() < 50:
+            self.vision_rect = self.creavisione(28,1.3)
+        else:
+            self.vision_rect = self.creavisione(15,2)
         self.anticollisione()
         self.car_incrocio = self.controlloincrocio()
         self.controllosemaforo(self.game.trfl)
@@ -168,8 +172,8 @@ class Car(pygame.sprite.Sprite):
                          if a > 0:
                             self.vel = vec(0,0)
                             #self.acc = vec(0,0)
-                         elif a < 0:
-                            car.vel = vec(0,0)
+                         #elif a < 0:
+                         #   car.vel = vec(0,0)
 
 
     def left_right(self, A, B):
@@ -192,6 +196,10 @@ class Car(pygame.sprite.Sprite):
     def draw_vectors(self):
         scale = 25
         # vel
+        #self.x = (self.game.centro_pos - self.pos)
+        #if self.x.length() < 50:
+        #    self.vision_rect = self.creavisione(40,1)
+        #    print(self.x.length())
         pygame.draw.line(self.game.screen, GREEN, self.pos, (self.pos + self.vel * scale), 5)
         # desired
         pygame.draw.line(self.game.screen, RED, self.pos, (self.pos + self.desired * scale), 5)
