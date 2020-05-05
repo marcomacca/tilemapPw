@@ -27,7 +27,7 @@ class Traffic_Light(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self, self.groups)
         self.init(lista)
         self.image = pygame.image.load(os.path.join(game.img_folder, "red.png"))
-        self.image = pygame.transform.scale(self.image, (31, 81)).convert()
+        self.image = pygame.transform.scale(self.image, (31, 81)).convert_alpha()
         self.rect = self.image.get_bounding_rect()
         self.rect.center = self.pos
         self.color = 'red'
@@ -42,7 +42,7 @@ class Traffic_Light(pygame.sprite.Sprite):
     def change_sign(self, index):
         color = signal_list[index]
         self.image = pygame.image.load(os.path.join(self.game.img_folder,color))
-        self.image = pygame.transform.scale(self.image, (31, 81)).convert()
+        self.image = pygame.transform.scale(self.image, (31, 81)).convert_alpha()
         if index == 0:
             self.color = 'red'
         elif index == 1:
