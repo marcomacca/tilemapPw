@@ -96,7 +96,7 @@ class Car(pygame.sprite.Sprite):
                             self.vel = vec(0,0)
                             self.acc = vec(0,0)
                          else:
-                             self.vision_rect = self.creavisione(40,1)
+                             self.vision_rect = self.creavisione(37,1.1)
                              self.anticollisione()
                          break
                  elif s.color == 'green':
@@ -105,7 +105,7 @@ class Car(pygame.sprite.Sprite):
                             self.vel = vec(0,0)
                             self.acc = vec(0,0)
                         else:
-                            self.vision_rect = self.creavisione(40,1)
+                            self.vision_rect = self.creavisione(37,1.1)
                             self.anticollisione()
                         break
 
@@ -142,9 +142,9 @@ class Car(pygame.sprite.Sprite):
         self.rect = self.image.get_bounding_rect()
         self.x = (self.game.centro_pos - self.pos)
         if self.x.length() < 50:
-            self.vision_rect = self.creavisione(28,1.3)
+            self.vision_rect = self.creavisione(27,1.2)
         else:
-            self.vision_rect = self.creavisione(15,2)
+            self.vision_rect = self.creavisione(17,2)
         self.anticollisione()
         self.car_incrocio = self.controlloincrocio()
         self.controllosemaforo(self.game.trfl)
@@ -168,7 +168,7 @@ class Car(pygame.sprite.Sprite):
                          self.acc = vec(0,0)
                          break
                      elif self.vision_rect.colliderect(car.vision_rect):
-                         a = self.left_right(self.pos, car.pos)
+                         a = self.left_right(self.desired, car.desired)
                          if a > 0:
                             self.vel = vec(0,0)
                             #self.acc = vec(0,0)

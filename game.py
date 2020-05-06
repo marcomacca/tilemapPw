@@ -25,7 +25,7 @@ class Game:
         self.img_folder = os.path.join(current_dir, 'img')
         map_folder = os.path.join(current_dir, 'map')
         car_path = os.path.join(self.img_folder, "carx.png")
-        map_path = os.path.join(map_folder, "testmap2.tmx")
+        map_path = os.path.join(map_folder, "testmap.tmx")
         self.map = TiledMap(map_path)
         #self.map_img = self.map.make_map()
         self.map_img = pygame.transform.scale(self.map.make_map(), (1920, 1088)).convert()
