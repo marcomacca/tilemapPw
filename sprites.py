@@ -43,7 +43,7 @@ class Traffic_Light(pygame.sprite.Sprite):
     def traffic_detector(self):
         listcar = self.game.all_sprites.sprites()
         a = self.rect_lane.collidelistall(listcar)
-        print(len(a))
+        #print(len(a))
         return len(a)
 
     def change_sign(self, index):
@@ -78,6 +78,7 @@ class Car(pygame.sprite.Sprite):
         self.rot = 0
         self.index = 0
         self.vision_rect = None
+        self.start_time = pygame.time.get_ticks()
         
 
  
@@ -133,6 +134,8 @@ class Car(pygame.sprite.Sprite):
             self.desired *= dist / APPROACH_RADIUS * MAX_SPEED
             self.index += 1
             if self.index == len(target):
+                self.time_since_enter = pygame.time.get_ticks() - self.start_time
+                self.game.timers.append(self.time_since_enter/1000) #conversione a secondi 
                 self.kill()
         else:
             self.desired *= MAX_SPEED
