@@ -71,6 +71,18 @@ class Game:
             else:
                 self.centro_pos = vec(tile_object.x / 2,tile_object.y / 2)
         self.trfl_list = self.trfl.sprites()
+        #Selezione luce 
+        self.timerlight = pygame.USEREVENT + 1
+        pygame.time.set_timer(self.timerlight, 3000)
+        #Selezione Semaforo 
+        self.timertrafficlight = pygame.USEREVENT + 2
+        pygame.time.set_timer(self.timertrafficlight, 9000)
+        self.spawntimer = pygame.USEREVENT + 3
+        pygame.time.set_timer(self.spawntimer, 3000)
+        #pygame.time.set_timer(pygame.USEREVENT + 4, 1)
+        self.signal_counter = 0
+        self.signal_counter1 = 1
+        self.s1 = 0
         #for x in self.lista :
         #    Car(self, random.choice(self.lista))
             #self.listaPath.append(tile_object)
@@ -82,18 +94,7 @@ class Game:
 
 
     def run(self):
-        # game loop - set self.playing = False to end the game
-        #self.i = 0
-        self.timerlight = pygame.USEREVENT + 1
-        pygame.time.set_timer(self.timerlight, 3000)
-        self.timertrafficlight = pygame.USEREVENT + 2
-        pygame.time.set_timer(self.timertrafficlight, 9000)
-        self.spawntimer = pygame.USEREVENT + 3
-        pygame.time.set_timer(self.spawntimer, 3000)
-        pygame.time.set_timer(pygame.USEREVENT + 4, 1)
-        self.signal_counter = 0
-        self.signal_counter1 = 1
-        self.s1 = 0
+
         while not self.exit:
             self.traffic = self.trafficSet(self.s1 * 30)
             self.dt = self.clock.tick(self.ticks) / 500.0  
@@ -112,7 +113,6 @@ class Game:
     def draw(self):
         pygame.display.set_caption("{:.2f}".format(self.clock.get_fps()))
         self.screen.fill((0, 0, 0))
-        #self.map_img = pygame.transform.scale(self.map_img, (1920, 1088))
         self.screen.blit(self.map_img, (0,0))
         # self.draw_grid()
         self.all_sprites.draw(self.screen)
@@ -166,16 +166,24 @@ class Game:
       
     def update(self):
         self.all_sprites.update()
-        
+        #carInLane = []
+        for index, trfl in enumerate(self.trfl_list):
+            carInLane = trfl.traffic_detector()
+            #if carInLane > 10:
+            #    pygame.time.set_timer(self.timerlight, 5000)
+            #    pygame.time.set_timer(self.timertrafficlight, 15000)
+            #population = [auto1, auto2, truck]
+            #weights = [0.4, 0.4, 0.2]
+
         if self.signal_counter == 0 or self.signal_counter == 2:
             self.trfl_list[0].change_sign(self.signal_counter1)
             self.trfl_list[2].change_sign(self.signal_counter1)
         else:
             self.trfl_list[1].change_sign(self.signal_counter1)
             self.trfl_list[3].change_sign(self.signal_counter1)
-        #for sprite in self.trfl:
-        #    a = pygame.sprite.spritecollide(sprite, self.all_sprites,False)
-        #    print(a)
+
+        #   
+        # Kill sprite spowned in the same position  
         for sprite in self.all_sprites:
             a = pygame.sprite.spritecollide(sprite,self.all_sprites,False)
             for x in a:

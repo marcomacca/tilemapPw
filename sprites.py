@@ -5,7 +5,6 @@ from random import randint, uniform
 from pygame.math import Vector2 as vec
 from tilemap import *
 from math import sin, radians, degrees, copysign
-#from tilemap import collide_hit_rect
 ################
 MAX_SPEED = 2
 MAX_FORCE = 0.5
@@ -36,10 +35,19 @@ class Traffic_Light(pygame.sprite.Sprite):
         for tile_object in coordinate:
             if tile_object.name == 'linea':
                 self.rect_linea = pygame.Rect(tile_object.x / 2,tile_object.y / 2, tile_object.width / 2, tile_object.height / 2)
-            else:
+            elif tile_object.name == 'punto':
                 self.pos = (tile_object.x / 2,tile_object.y / 2)
+            else:   
+                self.rect_lane = pygame.Rect(tile_object.x / 2,tile_object.y / 2, tile_object.width / 2, tile_object.height / 2)
+
+    def traffic_detector(self):
+        listcar = self.game.all_sprites.sprites()
+        a = self.rect_lane.collidelistall(listcar)
+        print(len(a))
+        return len(a)
 
     def change_sign(self, index):
+        self.traffic_detector()
         color = signal_list[index]
         self.image = pygame.image.load(os.path.join(self.game.img_folder,color))
         self.image = pygame.transform.scale(self.image, (31, 81)).convert_alpha()
@@ -112,7 +120,7 @@ class Car(pygame.sprite.Sprite):
     def controlloincrocio(self):
         listcar = self.groups.sprites()
         a = self.game.centro_rect.collidelistall(listcar)
-        print(len(a))
+        #print(len(a))
         return len(a)
 
 
@@ -160,9 +168,6 @@ class Car(pygame.sprite.Sprite):
         #if self.vision_rect:
             for car in self.groups:
                 if car != self and car.vision_rect != None:
-                   #if abs(car.pos-self.pos) < 10:
-                   #   car.kill()
-                   #else:  
                      if self.vision_rect.colliderect(car.rect):
                          self.vel = vec(0,0)
                          self.acc = vec(0,0)
@@ -172,8 +177,7 @@ class Car(pygame.sprite.Sprite):
                          if a > 0:
                             self.vel = vec(0,0)
                             #self.acc = vec(0,0)
-                         #elif a < 0:
-                         #   car.vel = vec(0,0)
+
 
 
     def left_right(self, A, B):
@@ -195,11 +199,6 @@ class Car(pygame.sprite.Sprite):
 
     def draw_vectors(self):
         scale = 25
-        # vel
-        #self.x = (self.game.centro_pos - self.pos)
-        #if self.x.length() < 50:
-        #    self.vision_rect = self.creavisione(40,1)
-        #    print(self.x.length())
         pygame.draw.line(self.game.screen, GREEN, self.pos, (self.pos + self.vel * scale), 5)
         # desired
         pygame.draw.line(self.game.screen, RED, self.pos, (self.pos + self.desired * scale), 5)
