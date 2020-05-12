@@ -1,8 +1,9 @@
-import os ,statistics, pygame, pytmx ,random
+import os ,statistics, pygame, pytmx ,random, pygame_menu
 from math import sin, radians, degrees, copysign
 from pygame.math import Vector2
 from tilemap import *
 from sprites import *
+from menu import *
 
 
 
@@ -50,6 +51,19 @@ class Game:
              return 8
          else:
              return 12     
+    #def create_menu(self):
+    #    self.menu = pygame_menu.Menu(height=300,
+    #                            width=400,
+    #                            theme=pygame_menu.themes.THEME_BLUE,
+    #                            onclose=pygame_menu.events.CLOSE,
+    #                            title='Welcome')
+        
+    #    self.menu.add_text_input('Name: ', default='John Doe')
+    #    self.menu.add_selector('Difficulty: ', [('Hard', 1), ('Easy', 2)],)
+    #    self.menu.add_button('Play' ,pygame_menu.events.CLOSE)
+    #    self.menu.add_button('Reset', self.reset)
+    #    self.menu.set_relative_position(10, 10)
+
 
     def new(self):
         # initialize all variables and do all the setup for a new game
@@ -81,6 +95,9 @@ class Game:
         self.signal_counter = 0
         self.signal_counter1 = 1
         self.s1 = 0
+        Menu(self)
+        
+        #self.create_menu()
         #for x in self.lista :
         #    Car(self, random.choice(self.lista))
             #self.listaPath.append(tile_object)
@@ -121,33 +138,50 @@ class Game:
             for sprite in self.all_sprites:
                 sprite.draw_vectors()
                 sprite.draw_rect()
+        if self.menu.is_enabled():
+            self.menu.draw(self.screen)
         pygame.display.flip()         
 
 
-        
    
     def events(self):
-            
-            for event in pygame.event.get():
+
+            events = pygame.event.get()
+            for event in events:
                 if event.type == pygame.QUIT:
                     self.exit = True
                 elif event.type == self.spawntimer:
                     for a in range(self.traffic):
                         Car(self, random.choice(self.lista))
-                if event.type == self.timerlight:
+                elif event.type == self.timerlight:
                      self.signal_counter1 += 1
                      if self.signal_counter1 > 2:
                          self.signal_counter1 = 0
-                if event.type == self.timertrafficlight:
+                elif event.type == self.timertrafficlight:
                      self.signal_counter += 1
                      if self.signal_counter > 3:
                          self.signal_counter = 0
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        if self.menu.is_enabled():
+                            self.menu.disable()
+                        else:
+                            self.menu.enable()
+                    elif self.menu.is_enabled():
+                        self.menu.update(events)
 
-                elif event.type == pygame.MOUSEBUTTONUP:
-                    if self.debug:
-                        self.debug = False
-                    else:
-                        self.debug = True
+
+                    #self.menu.update(pygame.event.get())
+                            #self.menu.update(pygame.event.get())
+                            #self.menu.draw(self.screen)
+                            #self.menu.mainloop(self.screen,fps_limit=60)
+
+               
+                #elif event.type == pygame.MOUSEBUTTONUP:
+                #    if self.debug:
+                #        self.debug = False
+                #    else:
+                #        self.debug = True
                 #         Car(self, random.choice(self.lista))
                 #         if self.i >= 2:
                 #         self.i = 0
@@ -175,7 +209,6 @@ class Game:
         if len(self.timers) != 0:
             print(round(statistics.mean(self.timers),2))
 
-
         if self.signal_counter == 0 or self.signal_counter == 2:
             self.trfl_list[0].change_sign(self.signal_counter1)
             self.trfl_list[2].change_sign(self.signal_counter1)
@@ -190,6 +223,7 @@ class Game:
             for x in a:
                 if x != sprite and sprite.index == 0:
                     sprite.kill()
+        #self.menu.update(pygame.event.get())
         #for sprite in self.all_sprites:
         ##    pygame.sprite.groupcollide(self.all_sprites,self.all_sprites,
         ##    True, False)
