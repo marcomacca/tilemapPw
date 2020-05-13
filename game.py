@@ -32,7 +32,8 @@ class Game:
         self.car_image = pygame.transform.scale(self.car_image, (48, 24))
         self.lista = []
         self.centro = []
-        self.timers = []
+        self.time = []
+        self.life = []
         self.debug = False
     
     def convert(self,seconds):
@@ -206,8 +207,8 @@ class Game:
             #    pygame.time.set_timer(self.timertrafficlight, 15000)
             #population = [auto1, auto2, truck]
             #weights = [0.4, 0.4, 0.2]
-        if len(self.timers) != 0:
-            print(round(statistics.mean(self.timers),2))
+        if len(self.life) != 0:
+            print(round(statistics.mean(self.life),2))
 
         if self.signal_counter == 0 or self.signal_counter == 2:
             self.trfl_list[0].change_sign(self.signal_counter1)

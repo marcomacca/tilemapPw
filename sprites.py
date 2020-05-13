@@ -135,7 +135,8 @@ class Car(pygame.sprite.Sprite):
             self.index += 1
             if self.index == len(target):
                 self.time_since_enter = pygame.time.get_ticks() - self.start_time
-                self.game.timers.append(self.time_since_enter/1000) #conversione a secondi 
+                self.game.time.append(pygame.time.get_ticks()/1000)
+                self.game.life.append(self.time_since_enter/1000) #conversione a secondi 
                 self.kill()
         else:
             self.desired *= MAX_SPEED
