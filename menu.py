@@ -1,5 +1,9 @@
 import pygame_menu, pygame
 import matplotlib.pyplot as plt
+import plotly.graph_objects as go
+
+
+
 from graph import *
 
 
@@ -24,6 +28,7 @@ class Menu:
         self.menu.set_relative_position(10, 10)
         self.menu.disable()
         game.menu = self.menu
+        self.thread = None
 
 
     def reset(self):
@@ -42,21 +47,34 @@ class Menu:
 
     def create_graph(self):
         self.menu._close()
+        fig = go.Figure(data=go.Scatter(x=self.game.time, y=self.game.life))
+        fig.show()
+        #self.thread = None
+        #if self.thread != None:
+        #    if self.thread.is_alive():
+        #        print("NON SE POL")
+        #    self.thread = Graph(self.game.time, self.game.life)
+        #    self.thread.daemon = True
+        #    self.thread.start()
+        #else:#self.thread._stop()
+        #      self.thread = Graph(self.game.time, self.game.life)
+        #      self.thread.daemon = True
+        #      self.thread.start()
+ 
+        #a = Graph()
+        #a.start()
         #fig, ax = plt.subplots()  # Create a figure containing a single axes.
+        #plt.ion()
         #ax.plot(self.game.time, self.game.life)  # Plot some data on the axes.
         #ax.set_xlabel('x Time ')  # Add an x-label to the axes.
         #ax.set_ylabel('y Car life time')  # Add a y-label to the axes.
         #ax.set_title("Simple Plot")  # Add a title to the axes.
         #ax.grid()
-        #plt.show(block=False)
+        #fig.canvas.draw()
+        #plt.show()
+        #plt.show()
         #plt.ion()
         #plt.draw()
         #print("---Plot graph finish---")
         #plt.show()
     
-    def mult_p(self):
-        mp.set_start_method('spawn') 
-        self.plot_process = mp.Process(
-            target=Graph(), args=(), daemon=True)
-        self.plot_process.start()
-        
