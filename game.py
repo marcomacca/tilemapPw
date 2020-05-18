@@ -154,7 +154,8 @@ class Game:
                             self.menu.enable()
                     elif self.menu.is_enabled():
                         self.menu.update(events)
-
+                elif self.menu.is_enabled():  #per gestione con mouse
+                        self.menu.update(events)
 
                
                 #elif event.type == pygame.MOUSEBUTTONUP:
