@@ -25,7 +25,6 @@ class Game:
         car_path = os.path.join(self.img_folder, "carx.png")
         map_path = os.path.join(map_folder, "testmap.tmx")
         self.map = TiledMap(map_path)
-        #self.map_img = self.map.make_map()
         self.map_img = pygame.transform.scale(self.map.make_map(), (1920, 1088)).convert()
         self.map_rect = self.map_img.get_rect()
         self.car_image = pygame.image.load(car_path).convert_alpha()
@@ -52,18 +51,6 @@ class Game:
              return 8
          else:
              return 12     
-    #def create_menu(self):
-    #    self.menu = pygame_menu.Menu(height=300,
-    #                            width=400,
-    #                            theme=pygame_menu.themes.THEME_BLUE,
-    #                            onclose=pygame_menu.events.CLOSE,
-    #                            title='Welcome')
-        
-    #    self.menu.add_text_input('Name: ', default='John Doe')
-    #    self.menu.add_selector('Difficulty: ', [('Hard', 1), ('Easy', 2)],)
-    #    self.menu.add_button('Play' ,pygame_menu.events.CLOSE)
-    #    self.menu.add_button('Reset', self.reset)
-    #    self.menu.set_relative_position(10, 10)
 
 
     def new(self):
@@ -98,7 +85,6 @@ class Game:
         self.s1 = 0
         Menu(self)
         
-        #self.create_menu()
         #for x in self.lista :
         #    Car(self, random.choice(self.lista))
             #self.listaPath.append(tile_object)
@@ -133,8 +119,6 @@ class Game:
         # self.draw_grid()
         self.all_sprites.draw(self.screen)
         self.trfl.draw(self.screen)
-        #for l in self.trfl:
-        #    l.draw_rect()
         if self.debug:
             for sprite in self.all_sprites:
                 sprite.draw_vectors()
@@ -171,11 +155,6 @@ class Game:
                     elif self.menu.is_enabled():
                         self.menu.update(events)
 
-
-                    #self.menu.update(pygame.event.get())
-                            #self.menu.update(pygame.event.get())
-                            #self.menu.draw(self.screen)
-                            #self.menu.mainloop(self.screen,fps_limit=60)
 
                
                 #elif event.type == pygame.MOUSEBUTTONUP:
@@ -217,7 +196,7 @@ class Game:
             self.trfl_list[1].change_sign(self.signal_counter1)
             self.trfl_list[3].change_sign(self.signal_counter1)
 
-        #   
+    
         # Kill sprite spowned in the same position  
         for sprite in self.all_sprites:
             a = pygame.sprite.spritecollide(sprite,self.all_sprites,False)
@@ -225,19 +204,7 @@ class Game:
                 if x != sprite and sprite.index == 0:
                     sprite.kill()
         #self.menu.update(pygame.event.get())
-        #for sprite in self.all_sprites:
-        ##    pygame.sprite.groupcollide(self.all_sprites,self.all_sprites,
-        ##    True, False)
-        #    for a in pygame.sprite.spritecollide(sprite, self.all_sprites,False,pygame.sprite.collide_circle):  
-        #        if a != sprite:
-        #            c = a.left_right(a.pos, sprite.pos)
-        #            if c > 0:
-        #               a.vel = vec(0,0)
-        #               a.acc = vec(0,0)
-        #            #elif c < 0:
-        #            #   a.vel = vec(0,0)
-                    
-            #hits = pygame.sprite.groupcollide(sprite, zy_enemies, True, False, pygame.sprite.collide_circle)
+
 
 
 

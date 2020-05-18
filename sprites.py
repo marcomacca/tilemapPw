@@ -169,7 +169,6 @@ class Car(pygame.sprite.Sprite):
         
         
     def anticollisione(self):
-        #if self.vision_rect:
             for car in self.groups:
                 if car != self and car.vision_rect != None:
                      if self.vision_rect.colliderect(car.rect):

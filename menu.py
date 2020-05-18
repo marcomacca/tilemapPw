@@ -2,7 +2,6 @@ import pygame_menu, pygame
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 import plotly.express as px
-from graph import *
 
 
 class Menu:
@@ -54,32 +53,5 @@ class Menu:
         fig = go.Figure(data=[go.Histogram(x=self.game.life)])
         #fig = px.histogram(x=self.game.time, y=self.game.life, histfunc='avg')
         fig.show()
-        #self.thread = None
-        #if self.thread != None:
-        #    if self.thread.is_alive():
-        #        print("NON SE POL")
-        #    self.thread = Graph(self.game.time, self.game.life)
-        #    self.thread.daemon = True
-        #    self.thread.start()
-        #else:#self.thread._stop()
-        #      self.thread = Graph(self.game.time, self.game.life)
-        #      self.thread.daemon = True
-        #      self.thread.start()
- 
-        #a = Graph()
-        #a.start()
-        #fig, ax = plt.subplots()  # Create a figure containing a single axes.
-        #plt.ion()
-        #ax.plot(self.game.time, self.game.life)  # Plot some data on the axes.
-        #ax.set_xlabel('x Time ')  # Add an x-label to the axes.
-        #ax.set_ylabel('y Car life time')  # Add a y-label to the axes.
-        #ax.set_title("Simple Plot")  # Add a title to the axes.
-        #ax.grid()
-        #fig.canvas.draw()
-        #plt.show()
-        #plt.show()
-        #plt.ion()
-        #plt.draw()
-        #print("---Plot graph finish---")
-        #plt.show()
+
     
