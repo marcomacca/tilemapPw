@@ -139,6 +139,8 @@ class Game:
                     for a in range(self.traffic):
                         Car(self, random.choice(self.lista))
                 elif event.type == self.timerlight:
+                     if self.menu._current._menubar._label == 'Overview': #se ho l'overview aperta richiamo la creazione del menu per aggiornare i campi
+                        self.menu._widgets[3].apply()
                      self.signal_counter1 += 1
                      if self.signal_counter1 > 2:
                          self.signal_counter1 = 0
@@ -150,6 +152,7 @@ class Game:
                     if event.key == pygame.K_ESCAPE:
                         if self.menu.is_enabled():
                             self.menu.disable()
+                            self.menu.reset(1)
                         else:
                             self.menu.enable()
                     elif self.menu.is_enabled():
@@ -187,8 +190,8 @@ class Game:
             #    pygame.time.set_timer(self.timertrafficlight, 15000)
             #population = [auto1, auto2, truck]
             #weights = [0.4, 0.4, 0.2]
-        if len(self.life) != 0:
-            print(round(statistics.mean(self.life),2))
+        #if len(self.life) != 0:
+        #    print(round(statistics.mean(self.life),2))
 
         if self.signal_counter == 0 or self.signal_counter == 2:
             self.trfl_list[0].change_sign(self.signal_counter1)
