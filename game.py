@@ -139,7 +139,7 @@ class Game:
                     for a in range(self.traffic):
                         Car(self, random.choice(self.lista))
                 elif event.type == self.timerlight:
-                     if self.menu._current._menubar._label == 'Overview': #se ho l'overview aperta richiamo la creazione del menu per aggiornare i campi
+                     if self.menu._current._menubar._title == 'Overview': #se ho l'overview aperta richiamo la creazione del menu per aggiornare i campi
                         self.menu._widgets[3].apply()
                      self.signal_counter1 += 1
                      if self.signal_counter1 > 2:

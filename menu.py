@@ -66,7 +66,7 @@ class Menu:
         #fig.show()
         fig = go.Figure(data=[go.Histogram(x=self.game.life)])
         #fig = px.histogram(x=self.game.time, y=self.game.life, histfunc='avg')
-        fig.show()
+        fig.show(debug=False)
 
     def submenu(self):
 
