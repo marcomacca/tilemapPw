@@ -131,3 +131,5 @@ dmypy.json
 .vs/VSWorkspaceState.json
 .vs/trafficsim/v16/.suo
 /.vs
+
+tmp.html

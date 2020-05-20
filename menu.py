@@ -1,7 +1,7 @@
 import pygame_menu,pygame,statistics
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import plotly.graph_objects as go
-import plotly.express as px
+#import plotly.express as px
 
 
 class Menu:
@@ -65,8 +65,9 @@ class Menu:
         #fig = go.Figure(data=go.Scatter(x=self.game.time, y=self.game.life))
         #fig.show()
         fig = go.Figure(data=[go.Histogram(x=self.game.life)])
+        fig.write_html('tmp.html', auto_open=True) #alternative if stuck on loading page
         #fig = px.histogram(x=self.game.time, y=self.game.life, histfunc='avg')
-        fig.show(debug=False)
+        #fig.show()
 
     def submenu(self):
 
