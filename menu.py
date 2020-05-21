@@ -50,7 +50,7 @@ class Menu:
         self.menu._close()
         self.game.all_sprites = pygame.sprite.Group()
         self.game.time = []
-        self.life = []
+        self.game.life = []
 
     def debug(self):    
         self.menu._close()
