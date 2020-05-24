@@ -40,8 +40,7 @@ class Menu:
         self.submenu.set_relative_position(20, 10)
         self.menu._open(self.submenu)
             
-      
-        #https://github.com/ppizarror/pygame-menu/blob/master/pygame_menu/examples/game_selector.py
+     
     def close(self):
         self.menu._close()
         self.game.exit = True
@@ -69,26 +68,26 @@ class Menu:
         #fig = px.histogram(x=self.game.time, y=self.game.life, histfunc='avg')
         #fig.show()
 
-    def submenu(self):
+    #def submenu(self):
 
-         submenu_theme = pygame_menu.themes.THEME_DEFAULT.copy()
-         submenu_theme.widget_font_size = 15
-         play_submenu = pygame_menu.Menu(height=400,
-             theme=submenu_theme,
-             title='Submenu',
-             width=400,)
-         for i in range(30):
-             play_submenu.add_button('Back {0}'.format(i), pygame_menu.events.BACK)
-         play_submenu.add_button('Return to main menu', pygame_menu.events.RESET)
+    #     submenu_theme = pygame_menu.themes.THEME_DEFAULT.copy()
+    #     submenu_theme.widget_font_size = 15
+    #     play_submenu = pygame_menu.Menu(height=400,
+    #         theme=submenu_theme,
+    #         title='Submenu',
+    #         width=400,)
+    #     for i in range(30):
+    #         play_submenu.add_button('Back {0}'.format(i), pygame_menu.events.BACK)
+    #     play_submenu.add_button('Return to main menu', pygame_menu.events.RESET)
 
-         play_menu.add_button('Start',  # When pressing return -> play(DIFFICULTY[0], font)
-                              pygame_menu.events.CLOSE,
-                              pygame.font.Font(pygame_menu.font.FONT_FRANCHISE, 30))
-         #play_menu.add_selector('Select difficulty ',
-         #                       [('1 - Easy', 'EASY'),
-         #                        ('2 - Medium', 'MEDIUM'),
-         #                        ('3 - Hard', 'HARD')],
-         #                       onchange=change_difficulty,
-         #                       selector_id='select_difficulty')
-         #play_menu.add_button('Another menu', play_submenu)
-         play_menu.add_button('Return to main menu', pygame_menu.events.BACK)
+    #     play_menu.add_button('Start',  # When pressing return -> play(DIFFICULTY[0], font)
+    #                          pygame_menu.events.CLOSE,
+    #                          pygame.font.Font(pygame_menu.font.FONT_FRANCHISE, 30))
+    #     #play_menu.add_selector('Select difficulty ',
+    #     #                       [('1 - Easy', 'EASY'),
+    #     #                        ('2 - Medium', 'MEDIUM'),
+    #     #                        ('3 - Hard', 'HARD')],
+    #     #                       onchange=change_difficulty,
+    #     #                       selector_id='select_difficulty')
+    #     #play_menu.add_button('Another menu', play_submenu)
+    #     play_menu.add_button('Return to main menu', pygame_menu.events.BACK)

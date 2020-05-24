@@ -72,12 +72,12 @@ class Game:
                 self.centro_pos = vec(tile_object.x / 2,tile_object.y / 2)
         self.trfl_list = self.trfl.sprites()
         #Selezione luce 
-        self.timerlight = pygame.USEREVENT + 1
-        pygame.time.set_timer(self.timerlight, 3000)
+        #self.timerlight = pygame.USEREVENT + 7
+        #pygame.time.set_timer(self.timerlight, 3000)
         #Selezione Semaforo 
-        self.timertrafficlight = pygame.USEREVENT + 2
+        self.timertrafficlight = pygame.USEREVENT + 5
         pygame.time.set_timer(self.timertrafficlight, 9000)
-        self.spawntimer = pygame.USEREVENT + 3
+        self.spawntimer = pygame.USEREVENT + 6
         pygame.time.set_timer(self.spawntimer, 3000)
         #pygame.time.set_timer(pygame.USEREVENT + 4, 1)
         self.signal_counter = 0
@@ -136,14 +136,16 @@ class Game:
                 if event.type == pygame.QUIT:
                     self.exit = True
                 elif event.type == self.spawntimer:
+                    if self.menu._current._menubar._title == 'Overview': #se ho l'overview aperta richiamo la creazione del menu per aggiornare i campi
+                        self.menu._widgets[3].apply()             
                     for a in range(self.traffic):
                         Car(self, random.choice(self.lista))
-                elif event.type == self.timerlight:
-                     if self.menu._current._menubar._title == 'Overview': #se ho l'overview aperta richiamo la creazione del menu per aggiornare i campi
-                        self.menu._widgets[3].apply()
-                     self.signal_counter1 += 1
-                     if self.signal_counter1 > 2:
-                         self.signal_counter1 = 0
+                #elif event.type == self.timerlight:
+                #     if self.menu._current._menubar._title == 'Overview': #se ho l'overview aperta richiamo la creazione del menu per aggiornare i campi
+                #        self.menu._widgets[3].apply()               
+                     #self.signal_counter1 += 1
+                     #if self.signal_counter1 > 2:
+                     #    self.signal_counter1 = 0
                 elif event.type == self.timertrafficlight:
                      self.signal_counter += 1
                      if self.signal_counter > 3:
@@ -159,7 +161,10 @@ class Game:
                         self.menu.update(events)
                 elif self.menu.is_enabled():  #per gestione con mouse
                         self.menu.update(events)
-
+            self.trfl.update(events)
+                #for index, trfl in enumerate(self.trfl_list):
+                ##carInLane = trfl.traffic_detector()
+                #    trfl.check()
                
                 #elif event.type == pygame.MOUSEBUTTONUP:
                 #    if self.debug:
@@ -182,23 +187,28 @@ class Game:
       
     def update(self):
         self.all_sprites.update()
+        #self.trfl.update()
         #carInLane = []
-        for index, trfl in enumerate(self.trfl_list):
-            carInLane = trfl.traffic_detector()
+        if self.signal_counter == 0 or self.signal_counter == 2:
+            self.trfl_list[0].active = True
+            self.trfl_list[2].active = True
+        else:
+            self.trfl_list[3].active = True
+            self.trfl_list[1].active = True
+        
+        #for index, trfl in enumerate(self.trfl_list):
+        #    #carInLane = trfl.traffic_detector()
+        #    trfl.check()
             #if carInLane > 10:
             #    pygame.time.set_timer(self.timerlight, 5000)
             #    pygame.time.set_timer(self.timertrafficlight, 15000)
             #population = [auto1, auto2, truck]
             #weights = [0.4, 0.4, 0.2]
         #if len(self.life) != 0:
-        #    print(round(statistics.mean(self.life),2))
+        ##    print(round(statistics.mean(self.life),2))
 
-        if self.signal_counter == 0 or self.signal_counter == 2:
-            self.trfl_list[0].change_sign(self.signal_counter1)
-            self.trfl_list[2].change_sign(self.signal_counter1)
-        else:
-            self.trfl_list[1].change_sign(self.signal_counter1)
-            self.trfl_list[3].change_sign(self.signal_counter1)
+
+
 
     
         # Kill sprite spowned in the same position  
@@ -207,7 +217,7 @@ class Game:
             for x in a:
                 if x != sprite and sprite.index == 0:
                     sprite.kill()
-        #self.menu.update(pygame.event.get())
+
 
 
 

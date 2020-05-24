@@ -30,6 +30,9 @@ class Traffic_Light(pygame.sprite.Sprite):
         self.rect = self.image.get_bounding_rect()
         self.rect.center = self.pos
         self.color = 'red'
+        self.index = 0
+        self.active = False 
+        self.event_time = 3000
     
     def init(self, coordinate):
         for tile_object in coordinate:
@@ -39,6 +42,10 @@ class Traffic_Light(pygame.sprite.Sprite):
                 self.pos = (tile_object.x / 2,tile_object.y / 2)
             else:   
                 self.rect_lane = pygame.Rect(tile_object.x / 2,tile_object.y / 2, tile_object.width / 2, tile_object.height / 2)
+        #self.time_setter()
+        self.timer_event = pygame.USEREVENT + len(self.groups)
+        self.event_time = 3000
+        pygame.time.set_timer((pygame.USEREVENT + len(self.groups)), self.event_time)
 
     def traffic_detector(self):
         listcar = self.game.all_sprites.sprites()
@@ -46,17 +53,38 @@ class Traffic_Light(pygame.sprite.Sprite):
         #print(len(a))
         return len(a)
 
-    def change_sign(self, index):
-        self.traffic_detector()
-        color = signal_list[index]
+    def change_sign(self):
+        #self.traffic_detector()
+        self.contatore()
+        color = signal_list[self.index]
         self.image = pygame.image.load(os.path.join(self.game.img_folder,color))
         self.image = pygame.transform.scale(self.image, (31, 81)).convert_alpha()
-        if index == 0:
+        if self.index == 0:
             self.color = 'red'
-        elif index == 1:
+        elif self.index == 1:
             self.color = 'green'
-        elif index == 2:
-            self.color = 'yellow'        
+        elif self.index == 2:
+            self.color = 'yellow'  
+            
+
+    def time_setter(self):
+        self.timer_event = pygame.USEREVENT + len(self.groups)
+        self.event_time = 3000
+        pygame.time.set_timer((pygame.USEREVENT + len(self.groups)), self.event_time)
+    
+    def update(self,events):
+        if self.active:      
+            for event in events:
+                if event.type == self.timer_event:
+                    self.change_sign()
+                    break
+                self.active = False 
+
+    def contatore(self):
+         self.index += 1
+         if self.index > 2:
+            self.index = 0
+         
 
     def draw_rect(self):
         pygame.draw.rect(self.game.screen, WHITE, self.rect)
