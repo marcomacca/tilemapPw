@@ -33,7 +33,7 @@ class Game:
         self.centro = []
         self.time = []
         self.life = []
-        self.debug = False
+        self.debug , self.smart_traffic = False, False
     
     def convert(self,seconds):
          min, sec = divmod(seconds, 60)
@@ -135,8 +135,6 @@ class Game:
                         Car(self, random.choice(self.lista))
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        self.trfl_list[0].time_setter(1500)
-                        self.trfl_list[2].time_setter(1500)
                         if self.menu.is_enabled():
                             self.menu.disable()
                             self.menu.reset(1)
@@ -147,8 +145,13 @@ class Game:
                 elif self.menu.is_enabled():  #per gestione con mouse
                         self.menu.update(events)
             self.trfl.update(events)
-            if self.signal_counter > 3:
+            if self.signal_counter == 4:
                 self.signal_counter = 0
+                self.trfl_list[0].reset()
+                self.trfl_list[2].reset()
+            elif self.signal_counter == 2:
+                self.trfl_list[3].reset()
+                self.trfl_list[1].reset()
                 #for index, trfl in enumerate(self.trfl_list):
                 ##carInLane = trfl.traffic_detector()
                 #    trfl.check()
@@ -170,21 +173,26 @@ class Game:
                 #elif  event.type == pygame.KEYDOWN:
                 #    if event.key == pygame.K_ESCAPE:
                 #        self.exit = True
-
+    # spostabile all'interno della classe semaforo, magari nel counter dopo che il semaforo ha finito il ciclo per richiamare il ciclo successivo
+    #def time_splitter(self):   
+    #    for index, trfl in enumerate(self.trfl_list):
+    #        if trfl.traffic_detector() > 8:
+    #            self.trfl_list[index].time_setter(5000)
+    #        else:
+    #            self.trfl_list[index].time_setter(2500)
       
     def update(self):
         self.all_sprites.update()
         #self.trfl.update()
         #carInLane = []
-
         if self.signal_counter < 2 :
             self.trfl_list[0].active = True
             self.trfl_list[2].active = True
         else :
             self.trfl_list[3].active = True
             self.trfl_list[1].active = True
-        
-        #for index, trfl in enumerate(self.trfl_list):
+
+
         #    #carInLane = trfl.traffic_detector()
         #    trfl.check()
             #if carInLane > 10:

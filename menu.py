@@ -19,6 +19,7 @@ class Menu:
         self.menu.add_button('Reset', self.reset)
         self.menu.add_button('Graph', self.create_graph)
         self.menu.add_button('Overview', self.create_submenu)
+        self.menu.add_button('Smart Traffic', self.smart_traffic_controller)
         self.menu.add_button('Debug' ,  self.debug)
         self.menu.add_button('Quit', self.close)
         #self.menu.add_image(self.game.car_path)
@@ -56,7 +57,14 @@ class Menu:
         if self.game.debug:
             self.game.debug = False
         else:
-            self.game.debug = True
+            self.game.debug = True   
+
+    def smart_traffic_controller(self):    
+        self.menu._close()
+        if self.game.smart_traffic:
+            self.game.smart_traffic = False
+        else:
+            self.game.smart_traffic = True
 
 
     def create_graph(self):

@@ -44,11 +44,11 @@ class Traffic_Light(pygame.sprite.Sprite):
         self.timer_event = pygame.USEREVENT + len(self.groups)
         self.event_time = 3000
         pygame.time.set_timer((pygame.USEREVENT + len(self.groups)), self.event_time)
+        self.reset()
 
     def traffic_detector(self):
         listcar = self.game.all_sprites.sprites()
         a = self.rect_lane.collidelistall(listcar)
-        #print(len(a))
         return len(a)
 
     def change_sign(self):
@@ -60,6 +60,10 @@ class Traffic_Light(pygame.sprite.Sprite):
         if self.index == 0:
             self.color = 'red'
             self.game.signal_counter += 1
+            if self.game.smart_traffic:
+               self.auto_timer()
+            else:
+                self.time_setter(3000)
         elif self.index == 1:
             self.color = 'green'
         elif self.index == 2:
@@ -71,18 +75,32 @@ class Traffic_Light(pygame.sprite.Sprite):
         pygame.time.set_timer(self.timer_event,self.event_time)
     
     def update(self,events):
-        if self.active:      
+        if self.active and self.not_done:      
             for event in events:
                 if event.type == self.timer_event:
                     self.change_sign()
-                self.active = False 
+                self.active = False
+
+    def auto_timer(self):
+         if  self.traffic_detector() > 8:
+             self.time_setter(5000)
+         elif self.traffic_detector() > 4 < 8:
+             self.time_setter(3000)
+         else:
+             self.time_setter(2000)
+
+    def reset(self):
+        self.not_done = True
 
     def contatore(self):
          self.index += 1
          if self.index > 2:
             self.index = 0
+            self.not_done = False
          
-
+    
+    
+    
     def draw_rect(self):
         pygame.draw.rect(self.game.screen, WHITE, self.rect)
 
