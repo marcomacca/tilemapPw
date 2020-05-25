@@ -1,5 +1,4 @@
-import pygame
-import os
+import pygame, os
 from math import sin, radians, degrees, copysign
 from random import randint, uniform
 from pygame.math import Vector2 as vec
@@ -32,7 +31,7 @@ class Traffic_Light(pygame.sprite.Sprite):
         self.color = 'red'
         self.index = 0
         self.active = False 
-        self.event_time = 3000
+        
     
     def init(self, coordinate):
         for tile_object in coordinate:
@@ -67,10 +66,9 @@ class Traffic_Light(pygame.sprite.Sprite):
             self.color = 'yellow'  
             
 
-    def time_setter(self):
-        self.timer_event = pygame.USEREVENT + len(self.groups)
-        self.event_time = 3000
-        pygame.time.set_timer((pygame.USEREVENT + len(self.groups)), self.event_time)
+    def time_setter(self,seconds):
+        self.event_time = seconds
+        pygame.time.set_timer(self.timer_event,self.event_time)
     
     def update(self,events):
         if self.active:      

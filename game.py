@@ -71,17 +71,13 @@ class Game:
             else:
                 self.centro_pos = vec(tile_object.x / 2,tile_object.y / 2)
         self.trfl_list = self.trfl.sprites()
-        #Selezione luce 
-        #self.timerlight = pygame.USEREVENT + 7
-        #pygame.time.set_timer(self.timerlight, 3000)
         #Selezione Semaforo 
         self.timertrafficlight = pygame.USEREVENT + 5
         pygame.time.set_timer(self.timertrafficlight, 9000)
+        #evento per creazione auto
         self.spawntimer = pygame.USEREVENT + 6
         pygame.time.set_timer(self.spawntimer, 3000)
-        #pygame.time.set_timer(pygame.USEREVENT + 4, 1)
         self.signal_counter = 0
-        self.signal_counter1 = 1
         self.s1 = 0
         Menu(self)
         
@@ -140,18 +136,15 @@ class Game:
                         self.menu._widgets[3].apply()             
                     for a in range(self.traffic):
                         Car(self, random.choice(self.lista))
-                #elif event.type == self.timerlight:
-                #     if self.menu._current._menubar._title == 'Overview': #se ho l'overview aperta richiamo la creazione del menu per aggiornare i campi
-                #        self.menu._widgets[3].apply()               
-                     #self.signal_counter1 += 1
-                     #if self.signal_counter1 > 2:
-                     #    self.signal_counter1 = 0
                 elif event.type == self.timertrafficlight:
                      self.signal_counter += 1
                      if self.signal_counter > 3:
                          self.signal_counter = 0
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
+                        self.trfl_list[0].time_setter(1500)
+                        self.trfl_list[2].time_setter(1500)
+                        #pygame.time.set_timer(self.timertrafficlight, 4500)
                         if self.menu.is_enabled():
                             self.menu.disable()
                             self.menu.reset(1)
@@ -209,8 +202,6 @@ class Game:
 
 
 
-
-    
         # Kill sprite spowned in the same position  
         for sprite in self.all_sprites:
             a = pygame.sprite.spritecollide(sprite,self.all_sprites,False)
