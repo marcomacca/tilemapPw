@@ -29,7 +29,7 @@ class Menu:
                            onchange=self.debug)
         self.menu.add_button('Quit', self.close)
         #self.menu.add_image(self.game.car_path)
-        self.menu.set_relative_position(10, 8)
+        self.menu.set_relative_position(10, 5)
         game.menu = self.menu
 
     def create_submenu(self):
