@@ -8,7 +8,7 @@ class Menu:
     def __init__(self, game):
 
         self.game = game
-        self.menu = pygame_menu.Menu(height=400,
+        self.menu = pygame_menu.Menu(height=450,
                              width=400,
                              theme=pygame_menu.themes.THEME_DARK,
                              onclose=pygame_menu.events.CLOSE,enabled=False,
@@ -19,11 +19,17 @@ class Menu:
         self.menu.add_button('Reset', self.reset)
         self.menu.add_button('Graph', self.create_graph)
         self.menu.add_button('Overview', self.create_submenu)
-        self.menu.add_button('Smart Traffic', self.smart_traffic_controller)
-        self.menu.add_button('Debug' ,  self.debug)
+        self.menu.add_selector('Smart Traffic: ',
+                           [('ON',True),
+                            ('OFF',False)],
+                           onchange=self.smart_traffic_controller,default=1)
+        self.menu.add_selector('Debug: ',
+                           [('ON',True),
+                            ('OFF',False)],default=1,
+                           onchange=self.debug)
         self.menu.add_button('Quit', self.close)
         #self.menu.add_image(self.game.car_path)
-        self.menu.set_relative_position(10, 10)
+        self.menu.set_relative_position(10, 8)
         game.menu = self.menu
 
     def create_submenu(self):
@@ -52,19 +58,13 @@ class Menu:
         self.game.time = []
         self.game.life = []
 
-    def debug(self):    
-        self.menu._close()
-        if self.game.debug:
-            self.game.debug = False
-        else:
-            self.game.debug = True   
+    def debug(self,value,status):    
+        self.game.debug = status
 
-    def smart_traffic_controller(self):    
-        self.menu._close()
-        if self.game.smart_traffic:
-            self.game.smart_traffic = False
-        else:
-            self.game.smart_traffic = True
+    def smart_traffic_controller(self,value,status):    
+        name, index = value
+        #self.menu._close()
+        self.game.smart_traffic = status
 
 
     def create_graph(self):

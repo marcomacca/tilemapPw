@@ -52,7 +52,6 @@ class Traffic_Light(pygame.sprite.Sprite):
         return len(a)
 
     def change_sign(self):
-        #self.traffic_detector()
         self.contatore()
         color = signal_list[self.index]
         self.image = pygame.image.load(os.path.join(self.game.img_folder,color))
@@ -79,15 +78,15 @@ class Traffic_Light(pygame.sprite.Sprite):
             for event in events:
                 if event.type == self.timer_event:
                     self.change_sign()
-                self.active = False
+                    self.active = False
 
     def auto_timer(self):
          if  self.traffic_detector() > 8:
              self.time_setter(5000)
          elif self.traffic_detector() > 4 < 8:
-             self.time_setter(3000)
+             self.time_setter(4000)
          else:
-             self.time_setter(2000)
+             self.time_setter(2500)
 
     def reset(self):
         self.not_done = True
