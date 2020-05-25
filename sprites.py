@@ -41,7 +41,6 @@ class Traffic_Light(pygame.sprite.Sprite):
                 self.pos = (tile_object.x / 2,tile_object.y / 2)
             else:   
                 self.rect_lane = pygame.Rect(tile_object.x / 2,tile_object.y / 2, tile_object.width / 2, tile_object.height / 2)
-        #self.time_setter()
         self.timer_event = pygame.USEREVENT + len(self.groups)
         self.event_time = 3000
         pygame.time.set_timer((pygame.USEREVENT + len(self.groups)), self.event_time)
@@ -60,6 +59,7 @@ class Traffic_Light(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (31, 81)).convert_alpha()
         if self.index == 0:
             self.color = 'red'
+            self.game.signal_counter += 1
         elif self.index == 1:
             self.color = 'green'
         elif self.index == 2:
@@ -75,7 +75,6 @@ class Traffic_Light(pygame.sprite.Sprite):
             for event in events:
                 if event.type == self.timer_event:
                     self.change_sign()
-                    break
                 self.active = False 
 
     def contatore(self):

@@ -19,6 +19,7 @@ class Menu:
         self.menu.add_button('Reset', self.reset)
         self.menu.add_button('Graph', self.create_graph)
         self.menu.add_button('Overview', self.create_submenu)
+        self.menu.add_button('Debug' ,  self.debug)
         self.menu.add_button('Quit', self.close)
         #self.menu.add_image(self.game.car_path)
         self.menu.set_relative_position(10, 10)

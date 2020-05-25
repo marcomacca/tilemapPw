@@ -71,9 +71,6 @@ class Game:
             else:
                 self.centro_pos = vec(tile_object.x / 2,tile_object.y / 2)
         self.trfl_list = self.trfl.sprites()
-        #Selezione Semaforo 
-        self.timertrafficlight = pygame.USEREVENT + 5
-        pygame.time.set_timer(self.timertrafficlight, 9000)
         #evento per creazione auto
         self.spawntimer = pygame.USEREVENT + 6
         pygame.time.set_timer(self.spawntimer, 3000)
@@ -136,15 +133,10 @@ class Game:
                         self.menu._widgets[3].apply()             
                     for a in range(self.traffic):
                         Car(self, random.choice(self.lista))
-                elif event.type == self.timertrafficlight:
-                     self.signal_counter += 1
-                     if self.signal_counter > 3:
-                         self.signal_counter = 0
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.trfl_list[0].time_setter(1500)
                         self.trfl_list[2].time_setter(1500)
-                        #pygame.time.set_timer(self.timertrafficlight, 4500)
                         if self.menu.is_enabled():
                             self.menu.disable()
                             self.menu.reset(1)
@@ -155,6 +147,8 @@ class Game:
                 elif self.menu.is_enabled():  #per gestione con mouse
                         self.menu.update(events)
             self.trfl.update(events)
+            if self.signal_counter > 3:
+                self.signal_counter = 0
                 #for index, trfl in enumerate(self.trfl_list):
                 ##carInLane = trfl.traffic_detector()
                 #    trfl.check()
@@ -182,10 +176,11 @@ class Game:
         self.all_sprites.update()
         #self.trfl.update()
         #carInLane = []
-        if self.signal_counter == 0 or self.signal_counter == 2:
+
+        if self.signal_counter < 2 :
             self.trfl_list[0].active = True
             self.trfl_list[2].active = True
-        else:
+        else :
             self.trfl_list[3].active = True
             self.trfl_list[1].active = True
         
