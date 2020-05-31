@@ -54,9 +54,10 @@ class Menu:
 
     def reset(self):
         self.menu._close()
-        self.game.all_sprites = pygame.sprite.Group()
-        self.game.time = []
-        self.game.life = []
+        #self.game.all_sprites = pygame.sprite.Group()
+        #self.game.time = []
+        #self.game.life = []
+        self.game.new() #Per poter resettare totalmente anche i semafori
 
     def debug(self,value,status):    
         self.game.debug = status

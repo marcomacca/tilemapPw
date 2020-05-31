@@ -173,13 +173,7 @@ class Game:
                 #elif  event.type == pygame.KEYDOWN:
                 #    if event.key == pygame.K_ESCAPE:
                 #        self.exit = True
-    # spostabile all'interno della classe semaforo, magari nel counter dopo che il semaforo ha finito il ciclo per richiamare il ciclo successivo
-    #def time_splitter(self):   
-    #    for index, trfl in enumerate(self.trfl_list):
-    #        if trfl.traffic_detector() > 8:
-    #            self.trfl_list[index].time_setter(5000)
-    #        else:
-    #            self.trfl_list[index].time_setter(2500)
+ 
       
     def update(self):
         self.all_sprites.update()
@@ -193,13 +187,6 @@ class Game:
             self.trfl_list[1].active = True
 
 
-        #    #carInLane = trfl.traffic_detector()
-        #    trfl.check()
-            #if carInLane > 10:
-            #    pygame.time.set_timer(self.timerlight, 5000)
-            #    pygame.time.set_timer(self.timertrafficlight, 15000)
-            #population = [auto1, auto2, truck]
-            #weights = [0.4, 0.4, 0.2]
         #if len(self.life) != 0:
         ##    print(round(statistics.mean(self.life),2))
 
