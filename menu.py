@@ -73,6 +73,14 @@ class Menu:
         #fig = go.Figure(data=go.Scatter(x=self.game.time, y=self.game.life))
         #fig.show()
         fig = go.Figure(data=[go.Histogram(x=self.game.life)])
+        # Documentazione https://plotly.com/python/histograms/
+        fig.update_layout(
+            title_text='Tempi percorrenza', # title of plot
+            xaxis_title_text='Value', # xaxis label
+            yaxis_title_text='Count', # yaxis label
+            #bargap=0.2, # gap between bars of adjacent location coordinates
+            bargroupgap=0.1 # gap between bars of the same location coordinates
+            )
         fig.write_html('tmp.html', auto_open=True) #alternative if stuck on loading page
         #fig = px.histogram(x=self.game.time, y=self.game.life, histfunc='avg')
         #fig.show()

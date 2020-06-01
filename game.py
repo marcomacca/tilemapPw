@@ -12,7 +12,7 @@ class Game:
     def __init__(self):
         pygame.init()
         pygame.display.set_caption("Trafic Simulator")
-        self.screen = pygame.display.set_mode((0, 0)) #,pygame.FULLSCREEN
+        self.screen = pygame.display.set_mode((0, 0))#,pygame.FULLSCREEN)
         self.clock = pygame.time.Clock()
         self.ticks = 60
         self.exit = False
@@ -31,9 +31,7 @@ class Game:
         self.car_image = pygame.transform.scale(self.car_image, (48, 24))
         self.lista = []
         self.centro = []
-        self.time = []
-        self.life = []
-        self.debug , self.smart_traffic = False, False
+
     
     def convert(self,seconds):
          min, sec = divmod(seconds, 60)
@@ -74,8 +72,9 @@ class Game:
         #evento per creazione auto
         self.spawntimer = pygame.USEREVENT + 6
         pygame.time.set_timer(self.spawntimer, 3000)
-        self.signal_counter = 0
-        self.s1 = 0
+        self.signal_counter, self.s1 = 0 , 0
+        self.time ,self.life = [] , []
+        self.debug , self.smart_traffic = False, False
         Menu(self)
         
         #for x in self.lista :
