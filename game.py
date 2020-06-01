@@ -177,8 +177,6 @@ class Game:
       
     def update(self):
         self.all_sprites.update()
-        #self.trfl.update()
-        #carInLane = []
         if self.signal_counter < 2 :
             self.trfl_list[0].active = True
             self.trfl_list[2].active = True

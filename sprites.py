@@ -140,7 +140,7 @@ class Car(pygame.sprite.Sprite):
                      if self.vision_rect.colliderect(s.rect_linea):
                          self.vel = vec(0,0)
                          self.acc = vec(0,0)
-                         break
+                         
                  elif s.color == 'yellow':
                      if self.vision_rect.colliderect(s.rect_linea):
                          if self.car_incrocio >= 2:
@@ -149,7 +149,7 @@ class Car(pygame.sprite.Sprite):
                          else:
                              self.vision_rect = self.creavisione(36,1)
                              self.anticollisione()
-                         break
+                         
                  elif s.color == 'green':
                      if self.vision_rect.colliderect(s.rect_linea):
                         if  self.car_incrocio >= 3:
@@ -158,7 +158,7 @@ class Car(pygame.sprite.Sprite):
                         else:
                             self.vision_rect = self.creavisione(36,1)
                             self.anticollisione()
-                        break
+                        
 
     def controlloincrocio(self):
         listcar = self.groups.sprites()
