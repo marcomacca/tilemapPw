@@ -86,7 +86,7 @@ class Traffic_Light(pygame.sprite.Sprite):
          elif self.traffic_detector() > 4 < 8:
              self.time_setter(4000)
          else:
-             self.time_setter(2500)
+             self.time_setter(3000)
 
     def reset(self):
         self.not_done = True
