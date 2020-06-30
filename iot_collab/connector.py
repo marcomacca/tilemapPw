@@ -65,7 +65,14 @@ GROUP BY
     row = cursor.fetchone()
     return row
 
-def writeTrafficLightPolicy(TrafficLightAxis1, project_id, timeslot_id, avg_green_duration):
+def writeTrafficLightPolicy(TrafficLightAxis1, project_id, timeslot_id):
+    cnxn.cursor.execute("""DELETE FROM dbo.temporizzazione
+WHERE
+	id_incrocio = """ + str(project_id) + """
+	AND id_semaforo = """ + str(TrafficLightAxis1.lt_id) + """
+	AND fascia_oraria = """ + str(timeslot_id) + """
+""")
+
     cnxn.cursor.execute("""INSERT INTO dbo.temporizzazione (
 	id_incrocio
 	, id_semaforo
@@ -73,10 +80,11 @@ def writeTrafficLightPolicy(TrafficLightAxis1, project_id, timeslot_id, avg_gree
 	, valore_tempo
 )
 VALUES (
-	""" + project_id + """
-	, """ +  TrafficLightAxis1.tl_id + """
-	, """ +  timeslot_id + """
-	, """ + avg_green_duration + """
+	""" + str(project_id) + """
+	, """ +  str(TrafficLightAxis1.tl_id) + """
+	, """ +  str(timeslot_id) + """
+	, """ + str(TrafficLightAxis1.avg_green_duration) + """
            
 )""")
+
     

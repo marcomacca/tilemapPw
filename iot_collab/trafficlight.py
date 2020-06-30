@@ -20,13 +20,12 @@ class TrafficLightAxis:
         elif light_status == 'YELLOW':
             light_status = 'RED'
 
-
-def trafficLightControl(TrafficLightAxis1, TrafficLightAxis2):
-    if TrafficLightAxis1.light_status == 'GREEN':
-        TrafficLightAxis1.light_switch()
-    elif TrafficLightAxis1.light_status == 'YELLOW':
-        TrafficLightAxis1.light_switch()
-        TrafficLightAxis2.light_switch()
-
+def resetDataForTimeslot(TrafficLightAxis1, TrafficLightAxis2):
+    TrafficLightAxis1.sum_of_green_duration = 0
+    TrafficLightAxis1.num_of_green = 0
+    TrafficLightAxis1.avg_green_duration = 0
+    TrafficLightAxis2.sum_of_green_duration = 0
+    TrafficLightAxis2.num_of_green = 0
+    TrafficLightAxis2.avg_green_duration = 0
 
 
