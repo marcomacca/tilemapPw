@@ -16,6 +16,8 @@ cnxn = pyodbc.connect('DRIVER='+driver+
                       ';PWD='+ password)
 
 cursor = cnxn.cursor()
+cursor2 = cnxn.cursor()
+cursor3 = cnxn.cursor()
 
 def queryForVehicles(project_id, tl_id, road_id, timeslot_id):
     cursor.execute("""SELECT
@@ -33,9 +35,9 @@ FROM (
         , data
         , tipologia_veicolo
         , CASE
-            WHEN tipologia_veicolo = 'Moto' THEN conteggio * """ + str(MOTORBIKE_COUNT_WEIGHT) + """
-            WHEN tipologia_veicolo = 'Auto' THEN conteggio * """ + str(CAR_COUNT_WEIGHT) + """
-            WHEN tipologia_veicolo = 'Camion' THEN conteggio * """ + str(TRUCK_COUNT_WEIGHT) + """
+            WHEN tipologia_veicolo = 'Motociclo' THEN conteggio * """ + str(MOTORBIKE_COUNT_WEIGHT) + """
+            WHEN tipologia_veicolo = 'Automobile' THEN conteggio * """ + str(CAR_COUNT_WEIGHT) + """
+            WHEN tipologia_veicolo = 'Mezzo pesante' THEN conteggio * """ + str(TRUCK_COUNT_WEIGHT) + """
             END as conteggio
     FROM
         dbo.traffico
@@ -66,14 +68,14 @@ GROUP BY
     return row
 
 def writeTrafficLightPolicy(TrafficLightAxis1, project_id, timeslot_id):
-    cnxn.cursor.execute("""DELETE FROM dbo.temporizzazione
+    cursor2.execute("""DELETE FROM dbo.temporizzazione
 WHERE
 	id_incrocio = """ + str(project_id) + """
-	AND id_semaforo = """ + str(TrafficLightAxis1.lt_id) + """
+	AND id_semaforo = """ + str(TrafficLightAxis1.tl_id) + """
 	AND fascia_oraria = """ + str(timeslot_id) + """
 """)
 
-    cnxn.cursor.execute("""INSERT INTO dbo.temporizzazione (
+    cursor3.execute("""INSERT INTO dbo.temporizzazione (
 	id_incrocio
 	, id_semaforo
 	, fascia_oraria
@@ -86,5 +88,5 @@ VALUES (
 	, """ + str(TrafficLightAxis1.avg_green_duration) + """
            
 )""")
-
+    cnxn.commit()
     

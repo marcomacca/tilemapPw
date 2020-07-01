@@ -14,11 +14,11 @@ class TrafficLightAxis:
     
     def lightSwitch(self):
         if self.light_status == 'RED':
-            light_status = 'GREEN'
-        elif light_status == 'GREEN':
-            light_status = 'YELLOW'
-        elif light_status == 'YELLOW':
-            light_status = 'RED'
+            self.light_status = 'GREEN'
+        elif self.light_status == 'GREEN':
+            self.light_status = 'YELLOW'
+        elif self.light_status == 'YELLOW':
+            self.light_status = 'RED'
 
 def resetDataForTimeslot(TrafficLightAxis1, TrafficLightAxis2):
     TrafficLightAxis1.sum_of_green_duration = 0
