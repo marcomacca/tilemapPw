@@ -1,5 +1,6 @@
 import pygame_menu,pygame,statistics
 import plotly.graph_objects as go
+import pandas as pd
 #import plotly.express as px
 
 
@@ -81,7 +82,9 @@ class Menu:
             #bargap=0.2, # gap between bars of adjacent location coordinates
             bargroupgap=0.1 # gap between bars of the same location coordinates
             )
-        fig.write_html('tmp.html', auto_open=True) #alternative if stuck on loading page
+        fig.write_html('tmp.html', auto_open=True)
+        #pd.DataFrame(self.game.life).to_csv('tmp.csv',index=None)
+        #alternative if stuck on loading page
         #fig = px.histogram(x=self.game.time, y=self.game.life, histfunc='avg')
         #fig.show()
 
