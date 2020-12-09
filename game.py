@@ -115,6 +115,8 @@ class Game:
             for sprite in self.all_sprites:
                 sprite.draw_vectors()
                 sprite.draw_rect()
+            for x in self.trfl_list:
+                pygame.draw.rect(self.screen, (0, 0, 0), x.rect_linea)
         if self.menu.is_enabled():
             self.menu.draw(self.screen)
         pygame.display.flip()         
